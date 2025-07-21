@@ -42,11 +42,12 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
       
       <Card className="w-full max-w-md bg-background/95 backdrop-blur-sm border-primary/20 shadow-xl">
         <CardHeader className="text-center space-y-4">
-          <div className="flex items-center justify-center gap-2 text-primary">
-            <Sparkles className="h-8 w-8" />
-            <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              The bagman
-            </h1>
+          <div className="flex items-center justify-center">
+            <img 
+              src="/lovable-uploads/9d23fdcd-25dd-46bf-bedd-97557e70bf90.png" 
+              alt="Bag Man NY" 
+              className="h-20 w-auto"
+            />
           </div>
           <p className="text-muted-foreground">Welcome back</p>
           
