@@ -38,7 +38,11 @@ interface Product {
   weight_grams: number | null;
 }
 
-export function CustomerApp() {
+interface CustomerAppProps {
+  onCheckout?: (items: any[], total: number) => void;
+}
+
+export function CustomerApp({ onCheckout }: CustomerAppProps) {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -397,6 +401,15 @@ export function CustomerApp() {
                 <Button 
                   variant="secondary"
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                  onClick={() => {
+                    if (onCheckout) {
+                      const cartItemsArray = Object.entries(cartItems).map(([productId, quantity]) => {
+                        const product = products.find(p => p.id === productId);
+                        return product ? { ...product, quantity } : null;
+                      }).filter(Boolean);
+                      onCheckout(cartItemsArray, getCartTotal());
+                    }
+                  }}
                 >
                   View Cart
                 </Button>
