@@ -46,7 +46,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
             <img 
               src="/lovable-uploads/9d23fdcd-25dd-46bf-bedd-97557e70bf90.png" 
               alt="Bag Man NY" 
-              className="h-20 w-auto"
+              className="h-40 w-auto"
             />
           </div>
           <p className="text-muted-foreground">Welcome back</p>
