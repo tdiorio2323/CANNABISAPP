@@ -33,7 +33,12 @@ const Index = () => {
   };
 
   if (currentView === 'auth') {
-    return <AuthPage onLogin={handleLogin} />;
+    return (
+      <div>
+        <h1>Debug: Auth Page Loading</h1>
+        <AuthPage onLogin={handleLogin} />
+      </div>
+    );
   }
 
   if (currentView === 'admin') {
