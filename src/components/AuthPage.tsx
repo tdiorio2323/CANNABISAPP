@@ -45,7 +45,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           <div className="flex items-center justify-center gap-2 text-primary">
             <Sparkles className="h-8 w-8" />
             <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Cabana
+              The bagman
             </h1>
           </div>
           <p className="text-muted-foreground">Welcome back</p>
