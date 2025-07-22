@@ -271,8 +271,18 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
             <CardContent className="p-4">
               <div className="flex gap-4">
                 {/* Product Image */}
-                <div className="w-16 h-16 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Leaf className="h-8 w-8 text-white" />
+                <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                  {product.image_url ? (
+                    <img 
+                      src={product.image_url} 
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 bg-green-500 rounded-lg flex items-center justify-center">
+                      <Leaf className="h-8 w-8 text-white" />
+                    </div>
+                  )}
                 </div>
 
                 {/* Product Info */}
