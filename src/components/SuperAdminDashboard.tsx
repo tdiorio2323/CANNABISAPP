@@ -105,6 +105,18 @@ export function SuperAdminDashboard() {
     }).format(amount);
   };
 
+  const handleAddNewBrand = () => {
+    toast.success("Add New Brand functionality coming soon!");
+  };
+
+  const handlePlatformSettings = () => {
+    toast.success("Platform Settings functionality coming soon!");
+  };
+
+  const handleViewAnalytics = () => {
+    toast.success("View Analytics functionality coming soon!");
+  };
+
   if (loading) {
     return (
       <div className="p-6 space-y-6">
@@ -133,7 +145,10 @@ export function SuperAdminDashboard() {
             Manage your cannabis platform and brand subscriptions
           </p>
         </div>
-        <Button className="bg-gradient-primary hover:shadow-green transition-all duration-300">
+        <Button 
+          className="bg-gradient-primary hover:shadow-green transition-all duration-300"
+          onClick={handleAddNewBrand}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Add New Brand
         </Button>
@@ -288,15 +303,27 @@ export function SuperAdminDashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button variant="outline" className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300">
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300 text-white font-bold bg-secondary/80 border-primary/20"
+              onClick={handleAddNewBrand}
+            >
               <Plus className="h-6 w-6" />
               Add New Brand
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300">
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300 text-white font-bold bg-secondary/80 border-primary/20"
+              onClick={handlePlatformSettings}
+            >
               <Settings className="h-6 w-6" />
               Platform Settings
             </Button>
-            <Button variant="outline" className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300">
+            <Button 
+              variant="outline" 
+              className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300 text-white font-bold bg-secondary/80 border-primary/20"
+              onClick={handleViewAnalytics}
+            >
               <TrendingUp className="h-6 w-6" />
               View Analytics
             </Button>
