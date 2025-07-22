@@ -20,6 +20,7 @@ import {
   BarChart3
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface Product {
   id: string;
@@ -49,6 +50,7 @@ export const BrandDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [userBrandId, setUserBrandId] = useState<string | null>(null);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState({
     name: "",
     description: "",
@@ -170,6 +172,63 @@ export const BrandDashboard = () => {
       fetchProducts();
     } catch (error) {
       console.error('Error adding product:', error);
+    }
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setNewProduct({
+      name: product.name,
+      description: product.description || "",
+      category: product.category,
+      price: product.price.toString(),
+      thc_percentage: product.thc_percentage?.toString() || "",
+      cbd_percentage: product.cbd_percentage?.toString() || "",
+      strain_type: product.strain_type || "",
+      weight_grams: product.weight_grams?.toString() || ""
+    });
+    setShowAddProduct(true);
+  };
+
+  const handleUpdateProduct = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProduct) return;
+    
+    try {
+      const { error } = await supabase
+        .from('products')
+        .update({
+          name: newProduct.name,
+          description: newProduct.description || null,
+          category: newProduct.category as 'flower' | 'edibles' | 'pre_rolls' | 'disposable_vapes' | 'concentrate',
+          price: parseFloat(newProduct.price),
+          thc_percentage: newProduct.thc_percentage ? parseFloat(newProduct.thc_percentage) : null,
+          cbd_percentage: newProduct.cbd_percentage ? parseFloat(newProduct.cbd_percentage) : null,
+          strain_type: newProduct.strain_type || null,
+          weight_grams: newProduct.weight_grams ? parseFloat(newProduct.weight_grams) : null
+        })
+        .eq('id', editingProduct.id);
+
+      if (error) throw error;
+      
+      // Reset form
+      setNewProduct({
+        name: "",
+        description: "",
+        category: "",
+        price: "",
+        thc_percentage: "",
+        cbd_percentage: "",
+        strain_type: "",
+        weight_grams: ""
+      });
+      setEditingProduct(null);
+      setShowAddProduct(false);
+      fetchProducts();
+      toast.success("Product updated successfully!");
+    } catch (error) {
+      console.error('Error updating product:', error);
+      toast.error("Failed to update product");
     }
   };
 
@@ -304,14 +363,14 @@ export const BrandDashboard = () => {
               </Button>
             </div>
 
-            {/* Add Product Form */}
+            {/* Add/Edit Product Form */}
             {showAddProduct && (
               <Card>
                 <CardHeader>
-                  <CardTitle>Add New Product</CardTitle>
+                  <CardTitle>{editingProduct ? 'Edit Product' : 'Add New Product'}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleAddProduct} className="space-y-4">
+                  <form onSubmit={editingProduct ? handleUpdateProduct : handleAddProduct} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="name">Product Name</Label>
@@ -368,8 +427,21 @@ export const BrandDashboard = () => {
                       />
                     </div>
                     <div className="flex gap-2">
-                      <Button type="submit">Add Product</Button>
-                      <Button type="button" variant="outline" onClick={() => setShowAddProduct(false)}>
+                      <Button type="submit">{editingProduct ? 'Update Product' : 'Add Product'}</Button>
+                      <Button type="button" variant="outline" onClick={() => {
+                        setShowAddProduct(false);
+                        setEditingProduct(null);
+                        setNewProduct({
+                          name: "",
+                          description: "",
+                          category: "",
+                          price: "",
+                          thc_percentage: "",
+                          cbd_percentage: "",
+                          strain_type: "",
+                          weight_grams: ""
+                        });
+                      }}>
                         Cancel
                       </Button>
                     </div>
@@ -418,7 +490,11 @@ export const BrandDashboard = () => {
                           >
                             {product.is_available ? <Eye className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                           </Button>
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleEditProduct(product)}
+                          >
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button 

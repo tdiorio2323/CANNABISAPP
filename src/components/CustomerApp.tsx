@@ -80,7 +80,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
       if (error) throw error;
       setBrands(data || []);
       
-      // Auto-select first brand if available
+      // Auto-select first brand if available for B2C
       if (data && data.length > 0) {
         setSelectedBrand(data[0]);
       }
@@ -161,64 +161,6 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
     );
   }
 
-  // Brand selection view
-  if (!selectedBrand) {
-    return (
-      <div className="min-h-screen bg-background">
-        {/* Header */}
-        <div className="sticky top-0 bg-gradient-hero border-b border-border/50 p-4 z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <Leaf className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-lg font-bold text-primary-foreground">Cannabis Delivery</h1>
-              <p className="text-sm text-primary-foreground/70">Choose your dispensary</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Brands Grid */}
-        <div className="p-4 space-y-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4" />
-            Available dispensaries in your area
-          </div>
-          
-          <div className="grid grid-cols-1 gap-4">
-            {brands.map((brand) => (
-              <Card 
-                key={brand.id}
-                className="cursor-pointer hover:shadow-green transition-all duration-300 bg-gradient-card border-border/50"
-                onClick={() => setSelectedBrand(brand)}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-gradient-primary rounded-lg flex items-center justify-center">
-                      <Leaf className="h-8 w-8 text-primary-foreground" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-foreground">{brand.name}</h3>
-                      <p className="text-sm text-muted-foreground">Premium Cannabis Products</p>
-                      <div className="flex items-center gap-2 mt-2">
-                        <div className="flex items-center gap-1">
-                          <Star className="h-4 w-4 text-warning fill-current" />
-                          <span className="text-sm text-muted-foreground">4.8</span>
-                        </div>
-                        <Badge variant="secondary" className="text-xs">
-                          25-35 min
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   // Product browsing view
   return (
@@ -239,14 +181,6 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
         
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => setSelectedBrand(null)}
-              className="text-white/80 hover:text-white"
-            >
-              ← Back
-            </Button>
             <div>
               <h1 className="font-bold text-white text-lg">25-35 MIN DELIVERY</h1>
             </div>
