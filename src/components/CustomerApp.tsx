@@ -47,7 +47,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
   const [selectedBrand, setSelectedBrand] = useState<Brand | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>("flower");
   const [cartItems, setCartItems] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
@@ -61,52 +61,43 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
   ];
 
   useEffect(() => {
-    fetchBrands();
+    initializeApp();
   }, []);
 
-  useEffect(() => {
-    if (selectedBrand) {
-      fetchProducts(selectedBrand.id);
-    }
-  }, [selectedBrand]);
-
-  const fetchBrands = async () => {
+  const initializeApp = async () => {
     try {
-      const { data, error } = await supabase
+      // Get the single brand for this app instance
+      const { data: brandsData, error: brandsError } = await supabase
         .from('brands')
         .select('*')
-        .eq('is_active', true);
+        .eq('is_active', true)
+        .limit(1);
 
-      if (error) throw error;
-      setBrands(data || []);
+      if (brandsError) throw brandsError;
       
-      // Auto-select first brand if available for B2C
-      if (data && data.length > 0) {
-        setSelectedBrand(data[0]);
+      if (brandsData && brandsData.length > 0) {
+        const brand = brandsData[0];
+        setBrands([brand]);
+        setSelectedBrand(brand);
+        
+        // Fetch products for this brand
+        const { data: productsData, error: productsError } = await supabase
+          .from('products')
+          .select('*')
+          .eq('brand_id', brand.id)
+          .eq('is_available', true);
+
+        if (productsError) throw productsError;
+        setProducts(productsData || []);
       }
     } catch (error) {
-      console.error('Error fetching brands:', error);
-      toast.error('Failed to load cannabis brands');
+      console.error('Error initializing app:', error);
+      toast.error('Failed to load store');
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchProducts = async (brandId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('brand_id', brandId)
-        .eq('is_available', true);
-
-      if (error) throw error;
-      setProducts(data || []);
-    } catch (error) {
-      console.error('Error fetching products:', error);
-      toast.error('Failed to load products');
-    }
-  };
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
