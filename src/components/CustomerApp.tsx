@@ -184,7 +184,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
           <img 
             src="/lovable-uploads/d482235e-a771-453e-9d4b-b7ed68e77b22.png" 
             alt="Slurpiez Logo" 
-            className="h-16 mx-auto"
+            className="h-32 mx-auto"
           />
         </div>
         
