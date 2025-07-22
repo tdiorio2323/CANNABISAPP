@@ -243,6 +243,87 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
         </div>
       </div>
 
+      {/* Feed Section */}
+      <div className="p-4">
+        <h2 className="text-xl font-bold text-foreground mb-4">Latest Updates</h2>
+        <div className="space-y-4">
+          {/* Feed Post 1 */}
+          <Card className="bg-white/95 border-gray-200 hover:shadow-md transition-all duration-300 rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Leaf className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="font-semibold text-black">@slurpieznewyork</h3>
+                    <span className="text-sm text-gray-500">2h ago</span>
+                  </div>
+                  <p className="text-gray-700 mb-3">
+                    🔥 New arrivals just dropped! Check out our premium indica strains perfect for weekend relaxation. Limited stock available! 
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <button className="hover:text-red-500 transition-colors">❤️ 42</button>
+                    <button className="hover:text-blue-500 transition-colors">💬 8</button>
+                    <button className="hover:text-green-500 transition-colors">🔄 12</button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Feed Post 2 */}
+          <Card className="bg-white/95 border-gray-200 hover:shadow-md transition-all duration-300 rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Star className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="font-semibold text-black">@slurpieznewyork</h3>
+                    <span className="text-sm text-gray-500">5h ago</span>
+                  </div>
+                  <p className="text-gray-700 mb-3">
+                    Thanks to everyone who came out to our pop-up! 🙏 Next delivery window opens at 4PM today. Don't miss out!
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <button className="hover:text-red-500 transition-colors">❤️ 87</button>
+                    <button className="hover:text-blue-500 transition-colors">💬 23</button>
+                    <button className="hover:text-green-500 transition-colors">🔄 34</button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Feed Post 3 */}
+          <Card className="bg-white/95 border-gray-200 hover:shadow-md transition-all duration-300 rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="font-semibold text-black">@slurpieznewyork</h3>
+                    <span className="text-sm text-gray-500">1d ago</span>
+                  </div>
+                  <p className="text-gray-700 mb-3">
+                    Now delivering to Brooklyn Heights and DUMBO! 🚚 Same day delivery available for orders placed before 2PM.
+                  </p>
+                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <button className="hover:text-red-500 transition-colors">❤️ 156</button>
+                    <button className="hover:text-blue-500 transition-colors">💬 45</button>
+                    <button className="hover:text-green-500 transition-colors">🔄 67</button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
       {/* Products Grid */}
       <div className="p-4 space-y-4">
         {filteredProducts.map((product) => (
