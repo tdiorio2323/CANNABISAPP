@@ -224,27 +224,38 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="sticky top-0 bg-gradient-hero border-b border-border/50 p-4 z-10">
+      <div className="sticky top-0 bg-black/20 backdrop-blur-md border-b border-white/10 p-4 z-10">
+        {/* Social Media Link */}
+        <div className="text-center mb-4">
+          <a 
+            href="https://www.instagram.com/slurpieznewyork/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-white text-sm font-medium hover:text-primary transition-colors"
+          >
+            FOLLOW @SLURPIEZNEWYORK
+          </a>
+        </div>
+        
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => setSelectedBrand(null)}
-              className="text-primary-foreground/80 hover:text-primary-foreground"
+              className="text-white/80 hover:text-white"
             >
               ← Back
             </Button>
             <div>
-              <h1 className="font-bold text-primary-foreground">{selectedBrand.name}</h1>
-              <p className="text-xs text-primary-foreground/70">25-35 min delivery</p>
+              <h1 className="font-bold text-white text-lg">25-35 MIN DELIVERY</h1>
             </div>
           </div>
           
           <Button 
             variant="ghost" 
             size="icon"
-            className="relative text-primary-foreground hover:bg-primary-foreground/10"
+            className="relative text-white hover:bg-white/10"
           >
             <ShoppingCart className="h-5 w-5" />
             {getCartItemCount() > 0 && (
@@ -257,12 +268,12 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
 
         {/* Search Bar */}
         <div className="mt-4 relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             placeholder="Search products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-background/90 border-border/50"
+            className="pl-10 bg-white/90 border-gray-300 text-black placeholder:text-gray-500 rounded-lg"
           />
         </div>
       </div>
@@ -276,7 +287,11 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
               variant={selectedCategory === category.id ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory(category.id)}
-              className="whitespace-nowrap"
+              className={`whitespace-nowrap ${
+                selectedCategory === category.id 
+                  ? "bg-green-500 text-white border-green-500 hover:bg-green-600" 
+                  : "bg-white/90 text-black border-gray-300 hover:bg-gray-100"
+              }`}
             >
               <span className="mr-2">{category.icon}</span>
               {category.name}
@@ -288,44 +303,44 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
       {/* Products Grid */}
       <div className="p-4 space-y-4">
         {filteredProducts.map((product) => (
-          <Card key={product.id} className="bg-gradient-card border-border/50 hover:shadow-md transition-all duration-300">
+          <Card key={product.id} className="bg-white/95 border-gray-200 hover:shadow-md transition-all duration-300 rounded-xl">
             <CardContent className="p-4">
               <div className="flex gap-4">
                 {/* Product Image */}
-                <div className="w-20 h-20 bg-gradient-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Leaf className="h-8 w-8 text-primary-foreground" />
+                <div className="w-16 h-16 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Leaf className="h-8 w-8 text-white" />
                 </div>
 
                 {/* Product Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-foreground truncate">{product.name}</h3>
-                      <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                        {product.description || "Premium cannabis product"}
+                      <h3 className="font-semibold text-black truncate">{product.name}</h3>
+                      <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                        {product.description || "Classic indica strain with earthy flavors"}
                       </p>
                       
                       {/* Product Details */}
                       <div className="flex items-center gap-2 mt-2">
                         {product.thc_percentage && (
-                          <Badge variant="outline" className="text-xs">
+                          <Badge variant="outline" className="text-xs bg-gray-100 text-black border-gray-300">
                             {product.thc_percentage}% THC
                           </Badge>
                         )}
                         {product.strain_type && (
-                          <Badge variant="secondary" className="text-xs">
+                          <Badge variant="secondary" className="text-xs bg-black text-white">
                             {product.strain_type}
                           </Badge>
                         )}
                         {product.weight_grams && (
-                          <Badge variant="outline" className="text-xs">
+                          <Badge variant="outline" className="text-xs bg-gray-100 text-black border-gray-300">
                             {product.weight_grams}g
                           </Badge>
                         )}
                       </div>
 
                       <div className="flex items-center justify-between mt-3">
-                        <span className="text-lg font-bold text-primary">
+                        <span className="text-lg font-bold text-green-600">
                           ${(product.price / 100).toFixed(2)}
                         </span>
                         
@@ -336,18 +351,18 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
                               <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-8 w-8"
+                                className="h-8 w-8 border-gray-300 text-black hover:bg-gray-100"
                                 onClick={() => removeFromCart(product.id)}
                               >
                                 <Minus className="h-4 w-4" />
                               </Button>
-                              <span className="font-medium min-w-[2rem] text-center">
+                              <span className="font-medium min-w-[2rem] text-center text-black">
                                 {cartItems[product.id]}
                               </span>
                               <Button
                                 variant="default"
                                 size="icon"
-                                className="h-8 w-8 bg-gradient-primary hover:shadow-green"
+                                className="h-8 w-8 bg-green-500 hover:bg-green-600 text-white"
                                 onClick={() => addToCart(product.id)}
                               >
                                 <Plus className="h-4 w-4" />
@@ -358,7 +373,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
                               variant="default"
                               size="sm"
                               onClick={() => addToCart(product.id)}
-                              className="bg-gradient-primary hover:shadow-green"
+                              className="bg-green-500 hover:bg-green-600 text-white rounded-full"
                             >
                               <Plus className="h-4 w-4 mr-1" />
                               Add
