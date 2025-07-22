@@ -90,11 +90,19 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/20 via-background to-accent/20 flex items-center justify-center p-4">
-      {/* Holographic background effect */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 via-blue-500/10 to-pink-500/10 animate-pulse" />
+    <div 
+      className="min-h-screen flex items-center justify-center p-4 relative"
+      style={{
+        backgroundImage: `url('/lovable-uploads/fa9437b3-6b52-4add-a826-421f47af7c9c.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Dark overlay for better contrast */}
+      <div className="absolute inset-0 bg-black/40" />
       
-      <Card className="w-full max-w-md bg-background/95 backdrop-blur-sm border-primary/20 shadow-xl">
+      <Card className="w-full max-w-md bg-black/20 backdrop-blur-lg border-white/20 shadow-2xl relative z-10">
         <CardHeader className="text-center space-y-4">
           <div className="flex items-center justify-center">
             <img 
@@ -133,7 +141,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-background/50"
+                className="bg-white/10 text-white placeholder:text-white/70 border-white/30"
               />
             </div>
 
@@ -146,7 +154,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-background/50 pr-10"
+                  className="bg-white/10 text-white placeholder:text-white/70 border-white/30 pr-10"
                 />
                 <Button
                   type="button"
@@ -227,11 +235,11 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
             <span className="text-primary hover:underline cursor-pointer">Privacy Policy</span>
           </p>
 
-          <div className="text-xs text-center text-muted-foreground bg-muted/50 p-3 rounded-lg">
-            <p className="font-medium mb-1">Demo Accounts:</p>
-            <p>admin@test.com → Super Admin</p>
-            <p>brand@test.com → Brand Dashboard</p>
-            <p>Any other email → Customer</p>
+          <div className="text-xs text-center bg-white p-3 rounded-lg">
+            <p className="font-medium mb-1 text-primary">Demo Accounts:</p>
+            <p className="text-primary">admin@test.com → Super Admin</p>
+            <p className="text-primary">brand@test.com → Brand Dashboard</p>
+            <p className="text-primary">Any other email → Customer</p>
           </div>
         </CardContent>
       </Card>
