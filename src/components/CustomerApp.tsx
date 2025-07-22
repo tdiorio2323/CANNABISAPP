@@ -179,6 +179,15 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
           </a>
         </div>
         
+        {/* Slurpiez Logo */}
+        <div className="text-center mb-4">
+          <img 
+            src="/lovable-uploads/d482235e-a771-453e-9d4b-b7ed68e77b22.png" 
+            alt="Slurpiez Logo" 
+            className="h-16 mx-auto"
+          />
+        </div>
+        
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div>
