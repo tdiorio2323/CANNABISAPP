@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Eye, EyeOff, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface AuthPageProps {
   onLogin: (role: 'customer' | 'brand' | 'admin') => void;
@@ -14,16 +16,65 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock auth - determine role based on email
-    if (email.includes('admin')) {
-      onLogin('admin');
-    } else if (email.includes('brand')) {
-      onLogin('brand');
-    } else {
-      onLogin('customer');
+    if (!email || !password) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    
+    try {
+      let authResult;
+      
+      if (isSignUp) {
+        authResult = await supabase.auth.signUp({
+          email,
+          password,
+        });
+      } else {
+        authResult = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+      }
+
+      if (authResult.error) throw authResult.error;
+
+      // Create or update user profile
+      const role = email.includes('admin') ? 'admin' : 
+                  email.includes('brand') ? 'brand' : 'customer';
+      
+      const { error: profileError } = await supabase
+        .from('users')
+        .upsert({
+          id: authResult.data.user?.id,
+          email: email,
+          name: email.split('@')[0],
+          role: role,
+          brand_id: email.includes('brand') ? '550e8400-e29b-41d4-a716-446655440000' : null
+        });
+
+      if (profileError) console.error('Profile error:', profileError);
+
+      onLogin(role);
+
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -110,8 +161,8 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
               </div>
             </div>
 
-            <Button type="submit" className="w-full">
-              {isSignUp ? "Sign Up" : "Sign In"}
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? "Loading..." : (isSignUp ? "Sign Up" : "Sign In")}
             </Button>
           </form>
 
