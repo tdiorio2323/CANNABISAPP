@@ -53,6 +53,9 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
       const role = email.includes('admin') ? 'admin' : 
                   email.includes('brand') ? 'brand' : 'customer';
       
+      // Use the correct brand_id for brand users
+      const brandId = email.includes('brand') ? '11111111-1111-1111-1111-111111111111' : null;
+      
       const { error: profileError } = await supabase
         .from('users')
         .upsert({
@@ -60,7 +63,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           email: email,
           name: email.split('@')[0],
           role: role,
-          brand_id: email.includes('brand') ? '550e8400-e29b-41d4-a716-446655440000' : null
+          brand_id: brandId
         });
 
       if (profileError) console.error('Profile error:', profileError);

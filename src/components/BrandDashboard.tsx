@@ -47,6 +47,7 @@ export const BrandDashboard = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userBrandId, setUserBrandId] = useState<string | null>(null);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -59,20 +60,43 @@ export const BrandDashboard = () => {
     weight_grams: ""
   });
 
-  // Mock brand ID - in real app this would come from auth
-  const brandId = "11111111-1111-1111-1111-111111111111";
 
   useEffect(() => {
-    fetchProducts();
-    fetchOrders();
+    fetchUserBrand();
   }, []);
+
+  useEffect(() => {
+    if (userBrandId) {
+      fetchProducts();
+      fetchOrders();
+    }
+  }, [userBrandId]);
+
+  const fetchUserBrand = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: userData } = await supabase
+          .from('users')
+          .select('brand_id')
+          .eq('id', user.id)
+          .single();
+        
+        if (userData?.brand_id) {
+          setUserBrandId(userData.brand_id);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user brand:', error);
+    }
+  };
 
   const fetchProducts = async () => {
     try {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .eq('brand_id', brandId)
+        .eq('brand_id', userBrandId)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -111,11 +135,13 @@ export const BrandDashboard = () => {
 
   const handleAddProduct = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!userBrandId) return;
+    
     try {
       const { error } = await supabase
         .from('products')
         .insert({
-          brand_id: brandId,
+          brand_id: userBrandId,
           name: newProduct.name,
           description: newProduct.description || null,
           category: newProduct.category as 'flower' | 'edibles' | 'pre_rolls' | 'disposable_vapes' | 'concentrate',
