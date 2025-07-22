@@ -289,7 +289,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-black truncate">{product.name}</h3>
+                      <h3 className="font-semibold text-black truncate">{product.name.toUpperCase()}</h3>
                       <p className="text-sm text-gray-600 mt-1 line-clamp-2">
                         {product.description || "Classic indica strain with earthy flavors"}
                       </p>
