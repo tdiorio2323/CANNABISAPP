@@ -166,7 +166,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
-      <div className="sticky top-0 bg-black/20 backdrop-blur-md border-b border-white/10 p-4 z-10">
+      <div className="sticky top-0 bg-black border-b border-white/10 p-4 z-10">
         {/* Social Media Link */}
         <div className="text-center mb-4">
           <a 
