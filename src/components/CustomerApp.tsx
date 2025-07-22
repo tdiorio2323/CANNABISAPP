@@ -366,7 +366,13 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
           <div className="text-center py-12">
             <Leaf className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-medium text-foreground mb-2">No products found</h3>
-            <p className="text-muted-foreground">Try adjusting your search or category filter</p>
+            <p className="text-muted-foreground">
+              Try adjusting your search or category filter
+              <br />
+              <span className="text-xs">
+                Category: {selectedCategory} | Total products: {products.length} | Brand: {selectedBrand?.name}
+              </span>
+            </p>
           </div>
         )}
       </div>
