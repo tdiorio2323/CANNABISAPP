@@ -277,12 +277,16 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
                       src={product.image_url} 
                       alt={product.name}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        target.nextElementSibling?.classList.remove('hidden');
+                      }}
                     />
-                  ) : (
-                    <div className="w-16 h-16 bg-green-500 rounded-lg flex items-center justify-center">
-                      <Leaf className="h-8 w-8 text-white" />
-                    </div>
-                  )}
+                  ) : null}
+                  <div className={`w-16 h-16 bg-green-500 rounded-lg flex items-center justify-center ${product.image_url ? 'hidden' : ''}`}>
+                    <Leaf className="h-8 w-8 text-white" />
+                  </div>
                 </div>
 
                 {/* Product Info */}
