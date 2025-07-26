@@ -155,10 +155,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
 
   // Product browsing view
   return (
-    <div 
-      className="min-h-screen pb-20 bg-cover bg-center bg-no-repeat" 
-      style={{ backgroundImage: 'url(/lovable-uploads/827a6d46-d4f2-4ea8-9cf2-e7eb451da03b.png)' }}
-    >
+    <div className="min-h-screen bg-background pb-20">
       {/* Header */}
       <div className="sticky top-0 bg-black border-b border-white/10 p-4 z-10">
         {/* Social Media Link */}
