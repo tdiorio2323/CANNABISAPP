@@ -91,8 +91,17 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
           <h1 className="text-xl font-semibold">Checkout</h1>
         </div>
         
+        {/* Brand Logo */}
+        <div className="flex justify-center mt-4 mb-6">
+          <img 
+            src="/lovable-uploads/770f7843-0e93-41d7-a5b2-4583612e7bce.png" 
+            alt="Brand Logo" 
+            className="h-12 w-auto"
+          />
+        </div>
+        
         {/* Progress indicator */}
-        <div className="flex items-center justify-center mt-4 space-x-4">
+        <div className="flex items-center justify-center space-x-4">
           <div className={`flex items-center space-x-2 ${step >= 1 ? 'text-primary' : 'text-muted-foreground'}`}>
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step >= 1 ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
               1
