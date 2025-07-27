@@ -40,8 +40,8 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
     nameOnCard: ""
   });
 
-  const deliveryFee = 4.99;
-  const tax = total * 0.0875; // 8.75% tax
+  const deliveryFee = 499; // $4.99 in cents
+  const tax = Math.round(total * 0.0875); // 8.75% tax in cents
   const finalTotal = total + deliveryFee + tax;
 
   const handleDeliverySubmit = (e: React.FormEvent) => {
@@ -141,7 +141,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-medium">${item.price.toFixed(2)}</p>
+                  <p className="font-medium">${(item.price / 100).toFixed(2)}</p>
                   <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
                 </div>
               </div>
@@ -152,20 +152,20 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Subtotal</span>
-                <span>${total.toFixed(2)}</span>
+                <span>${(total / 100).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Delivery Fee</span>
-                <span>${deliveryFee.toFixed(2)}</span>
+                <span>${(deliveryFee / 100).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Tax</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>${(tax / 100).toFixed(2)}</span>
               </div>
               <Separator />
               <div className="flex justify-between font-medium text-base">
                 <span>Total</span>
-                <span>${finalTotal.toFixed(2)}</span>
+                <span>${(finalTotal / 100).toFixed(2)}</span>
               </div>
             </div>
           </CardContent>
@@ -315,7 +315,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
                 </div>
 
                 <Button type="submit" className="w-full">
-                  Place Order - ${finalTotal.toFixed(2)}
+                  Place Order - ${(finalTotal / 100).toFixed(2)}
                 </Button>
               </form>
             </CardContent>
