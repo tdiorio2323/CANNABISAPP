@@ -50,6 +50,10 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("flower");
   const [cartItems, setCartItems] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const productsPerPage = 6;
 
   const categories = [
     { id: "all", name: "All Products", icon: "🌿" },
@@ -64,6 +68,11 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
     initializeApp();
   }, []);
 
+  useEffect(() => {
+    if (selectedBrand) {
+      fetchProducts(1);
+    }
+  }, [selectedCategory, searchQuery, selectedBrand]);
   const initializeApp = async () => {
     try {
       // Get the single brand for this app instance
@@ -79,16 +88,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
         const brand = brandsData[0];
         setBrands([brand]);
         setSelectedBrand(brand);
-        
-        // Fetch products for this brand
-        const { data: productsData, error: productsError } = await supabase
-          .from('products')
-          .select('*')
-          .eq('brand_id', brand.id)
-          .eq('is_available', true);
-
-        if (productsError) throw productsError;
-        setProducts(productsData || []);
+        // Products will be fetched by useEffect
       }
     } catch (error) {
       console.error('Error initializing app:', error);
@@ -98,7 +98,67 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
     }
   };
 
+  const fetchProducts = async (page: number, append: boolean = false) => {
+    if (!selectedBrand) return;
+    
+    try {
+      if (!append) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
 
+      let query = supabase
+        .from('products')
+        .select('*', { count: 'exact' })
+        .eq('brand_id', selectedBrand.id)
+        .eq('is_available', true);
+
+      // Apply category filter
+      if (selectedCategory !== "all") {
+        query = query.eq('category', selectedCategory);
+      }
+
+      // Apply search filter
+      if (searchQuery) {
+        query = query.or(`name.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+      }
+
+      // Apply pagination
+      const from = (page - 1) * productsPerPage;
+      const to = from + productsPerPage - 1;
+      query = query.range(from, to);
+
+      const { data: productsData, error: productsError, count } = await query;
+
+      if (productsError) throw productsError;
+
+      const totalCount = count || 0;
+      const calculatedTotalPages = Math.ceil(totalCount / productsPerPage);
+      
+      setTotalPages(calculatedTotalPages);
+      setCurrentPage(page);
+
+      if (append && productsData) {
+        setProducts(prev => [...prev, ...productsData]);
+      } else {
+        setProducts(productsData || []);
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      toast.error('Failed to load products');
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      fetchProducts(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          product.description?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -111,12 +171,6 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
       ...prev,
       [productId]: (prev[productId] || 0) + 1
     }));
-    toast.success("Added to cart!");
-  };
-
-  const removeFromCart = (productId: string) => {
-    setCartItems(prev => {
-      const newItems = { ...prev };
       if (newItems[productId] > 1) {
         newItems[productId]--;
       } else {
@@ -152,7 +206,18 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
     );
   }
 
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      fetchProducts(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
+  const handleLoadMore = () => {
+    if (currentPage < totalPages) {
+      fetchProducts(currentPage + 1, true);
+    }
+  };
   // Product browsing view
   return (
     <div 
@@ -276,9 +341,21 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
         </div>
       </div>
 
+      {/* Pagination Info */}
+      <div className="px-4 mb-2">
+        <div className="flex items-center justify-between text-white text-sm">
+          <span>
+            Page {currentPage} of {totalPages} ({products.length} products)
+          </span>
+          <span>
+            {selectedCategory !== "all" && `Category: ${selectedCategory}`}
+            {searchQuery && ` | Search: "${searchQuery}"`}
+          </span>
+        </div>
+      </div>
       {/* Products Grid */}
       <div className="p-4 space-y-4">
-        {filteredProducts.map((product) => (
+        {products.map((product) => (
           <Card key={product.id} className="bg-white/95 border-gray-200 hover:shadow-md transition-all duration-300 rounded-xl">
             <CardContent className="p-4">
               <div className="flex gap-4">
@@ -379,7 +456,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
           </Card>
         ))}
 
-        {filteredProducts.length === 0 && (
+        {products.length === 0 && !loading && (
           <div className="text-center py-12">
             <Leaf className="h-12 w-12 text-white/60 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-white mb-2">No products found</h3>
@@ -387,9 +464,62 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
               Try adjusting your search or category filter
               <br />
               <span className="text-xs">
-                Category: {selectedCategory} | Total products: {products.length} | Brand: {selectedBrand?.name}
+                Category: {selectedCategory} | Page: {currentPage}/{totalPages} | Brand: {selectedBrand?.name}
               </span>
             </p>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex flex-col gap-4 mt-6">
+            {/* Load More Button */}
+            <div className="text-center">
+              <Button
+                variant="outline"
+                onClick={handleLoadMore}
+                disabled={currentPage >= totalPages || loadingMore}
+                className="bg-white/90 text-black border-gray-300 hover:bg-gray-100"
+              >
+                {loadingMore ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900 mr-2"></div>
+                    Loading...
+                  </>
+                ) : (
+                  `Load More Products (${Math.min(productsPerPage, (totalPages - currentPage) * productsPerPage)} remaining)`
+                )}
+              </Button>
+            </div>
+
+            {/* Page Navigation */}
+            <div className="flex items-center justify-between bg-white/90 rounded-lg p-4">
+              <Button
+                variant="outline"
+                onClick={handlePrevPage}
+                disabled={currentPage <= 1}
+                className="flex items-center gap-2"
+              >
+                <span>←</span>
+                Previous
+              </Button>
+              
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">
+                  Page {currentPage} of {totalPages}
+                </span>
+              </div>
+              
+              <Button
+                variant="outline"
+                onClick={handleNextPage}
+                disabled={currentPage >= totalPages}
+                className="flex items-center gap-2"
+              >
+                Next
+                <span>→</span>
+              </Button>
+            </div>
           </div>
         )}
       </div>
