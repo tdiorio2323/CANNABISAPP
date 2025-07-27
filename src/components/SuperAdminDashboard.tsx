@@ -1,335 +1,228 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { 
-  Leaf, 
-  Users, 
-  DollarSign, 
-  TrendingUp, 
-  Plus,
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  LineChart, 
+  Line, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell 
+} from "recharts";
+import {
+  Users,
+  Building2,
+  DollarSign,
+  TrendingUp,
+  Shield,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
+  Search,
+  Filter,
   MoreHorizontal,
-  Eye,
+  UserCheck,
+  UserX,
   Settings,
-  Crown
+  Activity,
+  Package,
+  Eye
 } from "lucide-react";
-import { toast } from "sonner";
 
-interface Brand {
-  id: string;
-  name: string;
-  logo_url: string | null;
-  is_active: boolean;
-}
+const SuperAdminDashboard = () => {
+  const [activeTab, setActiveTab] = useState("overview");
 
-interface Subscription {
-  id: string;
-  brand_id: string;
-  tier: string;
-  is_active: boolean;
-  monthly_price: number;
-  current_period_end: string | null;
-  brand: {
-    name: string;
-  };
-}
-
-export function SuperAdminDashboard() {
-  const [brands, setBrands] = useState<Brand[]>([]);
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState({
-    totalBrands: 0,
-    activeBrands: 0,
-    totalRevenue: 0,
-    monthlyRecurring: 0
-  });
-
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      setLoading(true);
-
-      // Fetch brands
-      const { data: brandsData, error: brandsError } = await supabase
-        .from('brands')
-        .select('id, name, logo_url, is_active')
-        .limit(5);
-
-      if (brandsError) throw brandsError;
-
-      // Fetch subscriptions with brand info
-      const { data: subscriptionsData, error: subscriptionsError } = await supabase
-        .from('subscriptions')
-        .select(`
-          *,
-          brand:brands(name)
-        `)
-        .order('created_at', { ascending: false })
-        .limit(5);
-
-      if (subscriptionsError) throw subscriptionsError;
-
-      setBrands(brandsData || []);
-      setSubscriptions(subscriptionsData || []);
-
-      // Calculate stats
-      const totalBrands = brandsData?.length || 0;
-      const activeBrands = brandsData?.filter(b => b.is_active).length || 0;
-      const activeSubscriptions = subscriptionsData?.filter(s => s.is_active) || [];
-      const monthlyRecurring = activeSubscriptions.reduce((sum, sub) => sum + (sub.monthly_price / 100), 0);
-
-      setStats({
-        totalBrands,
-        activeBrands,
-        totalRevenue: monthlyRecurring * 12, // Estimated annual
-        monthlyRecurring
-      });
-
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-      toast.error('Failed to load dashboard data');
-    } finally {
-      setLoading(false);
-    }
+  // Mock platform data
+  const platformStats = {
+    totalUsers: 2847,
+    activeBrands: 156,
+    totalRevenue: 458600,
+    monthlyGrowth: 23.5
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
+  const recentBrands = [
+    { id: 1, name: "Green Valley Cannabis", email: "contact@greenvalley.com", status: "pending", applied: "2024-01-25", revenue: 12500 },
+    { id: 2, name: "High Quality Herbs", email: "info@hqherbs.com", status: "active", applied: "2024-01-20", revenue: 28900 },
+    { id: 3, name: "Cannabis Craft Co", email: "hello@cannabiscraft.com", status: "pending", applied: "2024-01-22", revenue: 0 },
+    { id: 4, name: "Pure Cannabis", email: "support@purecannabis.com", status: "active", applied: "2024-01-18", revenue: 45200 }
+  ];
 
-  const handleAddNewBrand = () => {
-    toast.success("Add New Brand functionality coming soon!");
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+      active: "default",
+      pending: "secondary",
+      suspended: "destructive",
+      inactive: "outline"
+    };
+    return <Badge variant={variants[status] || "outline"}>{status}</Badge>;
   };
-
-  const handlePlatformSettings = () => {
-    toast.success("Platform Settings functionality coming soon!");
-  };
-
-  const handleViewAnalytics = () => {
-    toast.success("View Analytics functionality coming soon!");
-  };
-
-  if (loading) {
-    return (
-      <div className="p-6 space-y-6">
-        <div className="animate-pulse">
-          <div className="h-8 bg-muted rounded w-64 mb-4"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-32 bg-muted rounded-lg"></div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
-            <Crown className="h-8 w-8 text-primary" />
-            Super Admin Dashboard
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Manage your cannabis platform and brand subscriptions
-          </p>
-        </div>
-        <Button 
-          className="bg-gradient-primary hover:shadow-green transition-all duration-300"
-          onClick={handleAddNewBrand}
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          Add New Brand
-        </Button>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-card border-border/50 hover:shadow-md transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Brands</CardTitle>
-            <Leaf className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-primary">{stats.totalBrands}</div>
-            <p className="text-xs text-muted-foreground">
-              {stats.activeBrands} active brands
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-card border-border/50 hover:shadow-md transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Brands</CardTitle>
-            <Users className="h-4 w-4 text-success" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-success">{stats.activeBrands}</div>
-            <p className="text-xs text-muted-foreground">
-              Paying customers
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-card border-border/50 hover:shadow-md transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Monthly Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-warning" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-warning">
-              {formatCurrency(stats.monthlyRecurring)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Recurring monthly revenue
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-gradient-card border-border/50 hover:shadow-md transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Annual Projection</CardTitle>
-            <TrendingUp className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-primary">
-              {formatCurrency(stats.totalRevenue)}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Estimated annual revenue
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Recent Brands and Subscriptions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Brands */}
-        <Card className="bg-gradient-card border-border/50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Leaf className="h-5 w-5 text-primary" />
-              Recent Cannabis Brands
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {brands.map((brand) => (
-                <div 
-                  key={brand.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                      <Leaf className="h-5 w-5 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-foreground">{brand.name}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Cannabis Brand
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={brand.is_active ? "default" : "secondary"}>
-                      {brand.is_active ? "Active" : "Inactive"}
-                    </Badge>
-                    <Button variant="ghost" size="icon">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent Subscriptions */}
-        <Card className="bg-gradient-card border-border/50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-warning" />
-              Recent Subscriptions
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {subscriptions.map((subscription) => (
-                <div 
-                  key={subscription.id}
-                  className="flex items-center justify-between p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                      <DollarSign className="h-5 w-5 text-primary-foreground" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-foreground">{subscription.brand.name}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {formatCurrency(subscription.monthly_price / 100)}/month
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={subscription.is_active ? "default" : "secondary"}>
-                      {subscription.tier}
-                    </Badge>
-                    <Button variant="ghost" size="icon">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <Card className="bg-gradient-card border-border/50">
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300 text-white font-bold bg-secondary/80 border-primary/20"
-              onClick={handleAddNewBrand}
-            >
-              <Plus className="h-6 w-6" />
-              Add New Brand
-            </Button>
-            <Button 
-              variant="outline" 
-              className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300 text-white font-bold bg-secondary/80 border-primary/20"
-              onClick={handlePlatformSettings}
-            >
-              <Settings className="h-6 w-6" />
-              Platform Settings
-            </Button>
-            <Button 
-              variant="outline" 
-              className="h-20 flex-col gap-2 hover:shadow-green transition-all duration-300 text-white font-bold bg-secondary/80 border-primary/20"
-              onClick={handleViewAnalytics}
-            >
-              <TrendingUp className="h-6 w-6" />
-              View Analytics
-            </Button>
+    <div className="min-h-screen bg-background">
+      <div className="border-b">
+        <div className="flex h-16 items-center px-6">
+          <div className="flex items-center space-x-4">
+            <Shield className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-semibold">Super Admin Dashboard</h1>
           </div>
-        </CardContent>
-      </Card>
+          <div className="ml-auto flex items-center space-x-4">
+            <Badge variant="outline">Platform Administrator</Badge>
+            <Avatar className="h-8 w-8">
+              <AvatarFallback>SA</AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 space-y-6 p-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="brands">Brands</TabsTrigger>
+            <TabsTrigger value="users">Users</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{platformStats.totalUsers.toLocaleString()}</div>
+                  <p className="text-xs text-muted-foreground">
+                    <span className="text-emerald-500">+12.3%</span> from last month
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Active Brands</CardTitle>
+                  <Building2 className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{platformStats.activeBrands}</div>
+                  <p className="text-xs text-muted-foreground">
+                    <span className="text-emerald-500">+8 new</span> this month
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Platform Revenue</CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">${platformStats.totalRevenue.toLocaleString()}</div>
+                  <p className="text-xs text-muted-foreground">
+                    <span className="text-emerald-500">+{platformStats.monthlyGrowth}%</span> from last month
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Growth Rate</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{platformStats.monthlyGrowth}%</div>
+                  <p className="text-xs text-muted-foreground">Monthly growth rate</p>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="brands" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold">Brand Management</h2>
+              <div className="flex items-center space-x-2">
+                <div className="relative">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search brands..." className="pl-8 w-64" />
+                </div>
+                <Button variant="outline" size="sm">
+                  <Filter className="mr-2 h-4 w-4" />
+                  Filter
+                </Button>
+              </div>
+            </div>
+
+            <Card>
+              <CardContent className="p-0">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Brand Name</TableHead>
+                      <TableHead>Contact Email</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Applied Date</TableHead>
+                      <TableHead>Revenue</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {recentBrands.map((brand) => (
+                      <TableRow key={brand.id}>
+                        <TableCell className="font-medium">{brand.name}</TableCell>
+                        <TableCell>{brand.email}</TableCell>
+                        <TableCell>{getStatusBadge(brand.status)}</TableCell>
+                        <TableCell>{brand.applied}</TableCell>
+                        <TableCell>${brand.revenue.toLocaleString()}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <Button variant="ghost" size="sm">
+                              <UserCheck className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="users" className="space-y-6">
+            <h2 className="text-2xl font-bold">User Management</h2>
+            <Card>
+              <CardContent className="p-6">
+                <p className="text-muted-foreground">User management interface with search, filters, and bulk actions.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <h2 className="text-2xl font-bold">Platform Analytics</h2>
+            <Card>
+              <CardContent className="p-6">
+                <p className="text-muted-foreground">Comprehensive analytics dashboard with charts and insights.</p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
-}
+};
+
+export default SuperAdminDashboard;

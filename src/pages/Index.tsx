@@ -4,7 +4,7 @@ import CustomerApp from "@/components/CustomerApp";
 import { AuthPage } from "@/components/AuthPage";
 import { CheckoutFlow } from "@/components/CheckoutFlow";
 import { SuperAdminDashboard } from "@/components/SuperAdminDashboard";
-import { BrandDashboard } from "@/components/BrandDashboard";
+import BrandDashboard from "@/components/BrandDashboard";
 import { Toaster } from "@/components/ui/toaster";
 
 const Index = () => {
