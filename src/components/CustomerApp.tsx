@@ -193,6 +193,15 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
             variant="ghost" 
             size="icon"
             className="relative text-white hover:bg-white/10"
+            onClick={() => {
+              if (onCheckout && getCartItemCount() > 0) {
+                const cartItemsArray = Object.entries(cartItems).map(([productId, quantity]) => {
+                  const product = products.find(p => p.id === productId);
+                  return product ? { ...product, quantity } : null;
+                }).filter(Boolean);
+                onCheckout(cartItemsArray, getCartTotal());
+              }
+            }}
           >
             <ShoppingCart className="h-5 w-5" />
             {getCartItemCount() > 0 && (
@@ -239,7 +248,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
 
       {/* Feed Section */}
       <div className="p-4">
-        <h2 className="text-xl font-bold text-foreground mb-3">Latest Updates</h2>
+        <h2 className="text-xl font-bold text-white mb-3">Latest Updates</h2>
         <div className="h-32 overflow-y-auto">
           <Card className="bg-white/95 border-gray-200 hover:shadow-md transition-all duration-300 rounded-xl">
             <CardContent className="p-3">
@@ -372,9 +381,9 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
 
         {filteredProducts.length === 0 && (
           <div className="text-center py-12">
-            <Leaf className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-foreground mb-2">No products found</h3>
-            <p className="text-muted-foreground">
+            <Leaf className="h-12 w-12 text-white/60 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-white mb-2">No products found</h3>
+            <p className="text-white/80">
               Try adjusting your search or category filter
               <br />
               <span className="text-xs">
@@ -388,7 +397,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
       {/* Floating Cart Summary */}
       {getCartItemCount() > 0 && (
         <div className="fixed bottom-4 left-4 right-4 z-20">
-          <Card className="bg-gradient-primary shadow-glow border-primary/20">
+          <Card className="bg-primary border-primary/20 shadow-lg">
             <CardContent className="p-4">
               <div className="flex items-center justify-between text-primary-foreground">
                 <div>
