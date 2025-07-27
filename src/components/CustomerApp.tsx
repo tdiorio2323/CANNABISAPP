@@ -157,27 +157,27 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
   return (
     <div 
       className="min-h-screen pb-20 bg-cover bg-center bg-no-repeat" 
-      style={{ backgroundImage: 'url(/lovable-uploads/827a6d46-d4f2-4ea8-9cf2-e7eb451da03b.png)' }}
+      style={{ backgroundImage: 'url(/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png)' }}
     >
       {/* Header */}
       <div className="sticky top-0 bg-black border-b border-white/10 p-4 z-10">
         {/* Social Media Link */}
         <div className="text-center mb-4">
           <a 
-            href="https://www.instagram.com/slurpieznewyork/" 
+            href="https://www.instagram.com/cabana/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-white text-sm font-medium hover:text-primary transition-colors"
           >
-            FOLLOW @SLURPIEZNEWYORK
+            FOLLOW @CABANA
           </a>
         </div>
         
         {/* Slurpiez Logo */}
         <div className="text-center mb-4">
           <img 
-            src="/lovable-uploads/d482235e-a771-453e-9d4b-b7ed68e77b22.png" 
-            alt="Slurpiez Logo" 
+            src="/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png" 
+            alt="Cabana Logo" 
             className="h-32 mx-auto"
           />
         </div>
@@ -258,7 +258,7 @@ export function CustomerApp({ onCheckout }: CustomerAppProps) {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="font-semibold text-black text-sm">@slurpieznewyork</h3>
+                    <h3 className="font-semibold text-black text-sm">@cabana</h3>
                     <span className="text-xs text-gray-500">2h ago</span>
                   </div>
                   <p className="text-gray-700 text-sm mb-2">
