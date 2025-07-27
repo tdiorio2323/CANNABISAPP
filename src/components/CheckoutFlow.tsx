@@ -96,7 +96,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
           <img 
             src="/lovable-uploads/770f7843-0e93-41d7-a5b2-4583612e7bce.png" 
             alt="Brand Logo" 
-            className="h-12 w-auto"
+            className="h-36 w-auto"
           />
         </div>
         
