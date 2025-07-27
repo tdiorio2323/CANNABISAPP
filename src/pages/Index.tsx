@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { CustomerApp } from "@/components/CustomerApp";
+import CustomerApp from "@/components/CustomerApp";
 import { AuthPage } from "@/components/AuthPage";
 import { CheckoutFlow } from "@/components/CheckoutFlow";
 import { SuperAdminDashboard } from "@/components/SuperAdminDashboard";

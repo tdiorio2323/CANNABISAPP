@@ -28,7 +28,11 @@ interface CartItem extends Product {
   quantity: number;
 }
 
-const CustomerApp = () => {
+interface CustomerAppProps {
+  onCheckout?: (items: CartItem[], total: number) => void;
+}
+
+const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -146,8 +150,11 @@ const CustomerApp = () => {
                   size="sm" 
                   className="relative bg-white/10 border-white/20 text-white hover:bg-white/20"
                   onClick={() => {
-                    // Cart functionality would go here
-                    toast.info('Cart feature coming soon!');
+                    if (cart.length > 0 && onCheckout) {
+                      onCheckout(cart, cartTotal);
+                    } else {
+                      toast.info('Add items to cart first!');
+                    }
                   }}
                 >
                   <ShoppingCart className="h-4 w-4 mr-2" />
