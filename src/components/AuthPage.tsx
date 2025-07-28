@@ -50,7 +50,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
         });
         
         // If sign in fails for demo accounts, create them automatically
-        if (authResult.error && isDemoAccount) {
+        if (authResult.error && isDemoAccount && authResult.error.message !== 'Invalid login credentials') {
           authResult = await supabase.auth.signUp({
             email,
             password,
