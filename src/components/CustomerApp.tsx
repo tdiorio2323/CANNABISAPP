@@ -133,12 +133,11 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
             </div>
             
             {/* Bottom row with CABANA text and cart button */}
-            <div className="flex items-center justify-between">
-              <div className="flex-1"></div>
-              <div className="flex-1 text-center">
+            <div className="flex items-center justify-center relative">
+              <div className="text-center">
                 <h1 className="text-2xl font-bold text-white">CABANA</h1>
               </div>
-              <div className="flex-1 flex justify-end">
+              <div className="absolute right-0">
                 <Button 
                   variant="outline" 
                   size="sm" 
