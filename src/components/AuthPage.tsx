@@ -275,11 +275,11 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
               <p className="font-medium mb-2 text-primary text-sm">Quick Demo Access:</p>
               <div className="flex gap-2 justify-center">
                 <Button
-                  type="button"
                   variant="outline"
                   size="sm"
                   className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
                   onClick={() => {
+                    console.log('Admin button clicked');
                     setEmail('admin@test.com');
                     setPassword('demo123');
                   }}
@@ -287,11 +287,11 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                   Admin
                 </Button>
                 <Button
-                  type="button"
                   variant="outline"
                   size="sm"
                   className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
                   onClick={() => {
+                    console.log('User button clicked');
                     setEmail('user@test.com');
                     setPassword('demo123');
                   }}
@@ -299,11 +299,11 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                   User
                 </Button>
                 <Button
-                  type="button"
                   variant="outline"
                   size="sm"
                   className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
                   onClick={() => {
+                    console.log('Brand button clicked');
                     setEmail('brand@test.com');
                     setPassword('demo123');
                   }}
