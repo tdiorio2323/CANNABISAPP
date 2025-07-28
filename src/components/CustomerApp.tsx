@@ -123,8 +123,46 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
         {/* Header */}
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
+            {/* Top row with centered logo */}
+            <div className="flex justify-center mb-2">
+              <img 
+                src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
+                alt="TD Studios" 
+                className="h-16 w-auto"
+              />
+            </div>
+            
+            {/* Bottom row with CABANA text and cart button */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+              <div className="flex-1"></div>
+              <div className="flex-1 text-center">
+                <h1 className="text-2xl font-bold text-white">CABANA</h1>
+              </div>
+              <div className="flex-1 flex justify-end">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="relative bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  onClick={() => {
+                    if (cart.length > 0 && onCheckout) {
+                      onCheckout(cart, cartTotal);
+                    } else {
+                      toast.info('Add items to cart first!');
+                    }
+                  }}
+                >
+                  <ShoppingCart className="h-4 w-4 mr-2" />
+                  Cart ({cart.length})
+                  {cart.length > 0 && (
+                    <Badge className="ml-2 bg-primary text-primary-foreground">
+                      ${(cartTotal / 100).toFixed(2)}
+                    </Badge>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </header>
                 <img 
                   src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
                   alt="Cabana" 
