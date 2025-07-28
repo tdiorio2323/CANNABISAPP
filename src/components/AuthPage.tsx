@@ -270,6 +270,48 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
             <p className="text-primary">admin@test.com (password: demo123) → Super Admin</p>
             <p className="text-primary">brand@test.com (password: demo123) → Brand Dashboard</p>
             <p className="text-primary">Any other email (password: demo123) → Customer</p>
+            
+            <div className="mt-3 pt-3 border-t border-primary/20">
+              <p className="font-medium mb-2 text-primary text-sm">Quick Demo Access:</p>
+              <div className="flex gap-2 justify-center">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
+                  onClick={() => {
+                    setEmail('admin@test.com');
+                    setPassword('demo123');
+                  }}
+                >
+                  Admin
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
+                  onClick={() => {
+                    setEmail('user@test.com');
+                    setPassword('demo123');
+                  }}
+                >
+                  User
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
+                  onClick={() => {
+                    setEmail('brand@test.com');
+                    setPassword('demo123');
+                  }}
+                >
+                  Brand
+                </Button>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
