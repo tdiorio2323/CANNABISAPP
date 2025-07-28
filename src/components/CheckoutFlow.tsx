@@ -94,7 +94,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
         {/* Brand Logo */}
         <div className="flex justify-center mt-4 mb-6">
           <img 
-            src="/lovable-uploads/770f7843-0e93-41d7-a5b2-4583612e7bce.png" 
+            src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
             alt="Brand Logo" 
             className="h-36 w-auto"
           />
@@ -123,7 +123,7 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
         <Card>
           <CardContent className="py-16 flex justify-center items-center">
             <img 
-              src="/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png" 
+              src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
               alt="Cabana" 
               className="h-full w-full object-contain max-h-20"
             />

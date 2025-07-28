@@ -126,7 +126,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <img 
-                  src="/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png" 
+                  src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
                   alt="Cabana" 
                   className="h-12 w-auto"
                 />
@@ -298,7 +298,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="space-y-4">
                 <img 
-                  src="/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png" 
+                  src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
                   alt="Cabana" 
                   className="h-8 w-auto"
                 />
