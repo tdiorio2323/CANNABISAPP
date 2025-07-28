@@ -163,42 +163,6 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
             </div>
           </div>
         </header>
-                <img 
-                  src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
-                  alt="Cabana" 
-                  className="h-12 w-auto"
-                />
-                <div>
-                  <h1 className="text-2xl font-bold text-white">Cabana</h1>
-                  <p className="text-white/60 text-sm">Premium Cannabis Delivery</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="relative bg-white/10 border-white/20 text-white hover:bg-white/20"
-                  onClick={() => {
-                    if (cart.length > 0 && onCheckout) {
-                      onCheckout(cart, cartTotal);
-                    } else {
-                      toast.info('Add items to cart first!');
-                    }
-                  }}
-                >
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  Cart ({cart.length})
-                  {cart.length > 0 && (
-                    <Badge className="ml-2 bg-primary text-primary-foreground">
-                      ${(cartTotal / 100).toFixed(2)}
-                    </Badge>
-                  )}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </header>
 
         {/* Main Content */}
         <main className="container mx-auto px-4 py-8">
