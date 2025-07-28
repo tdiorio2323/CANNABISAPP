@@ -41,10 +41,28 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           password,
         });
       } else {
+        // For demo accounts, try to sign in first, if it fails, create the account
+        const isDemoAccount = email === 'admin@test.com' || email === 'brand@test.com';
+        
         authResult = await supabase.auth.signInWithPassword({
           email,
           password,
         });
+        
+        // If sign in fails for demo accounts, create them automatically
+        if (authResult.error && isDemoAccount) {
+          authResult = await supabase.auth.signUp({
+            email,
+            password,
+          });
+          
+          if (!authResult.error) {
+            toast({
+              title: "Demo Account Created",
+              description: "Demo account created and signed in successfully",
+            });
+          }
+        }
       }
 
       if (authResult.error) throw authResult.error;
@@ -235,9 +253,9 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
 
           <div className="text-xs text-center bg-white p-3 rounded-lg">
             <p className="font-medium mb-1 text-primary">Demo Accounts:</p>
-            <p className="text-primary">admin@test.com → Super Admin</p>
-            <p className="text-primary">brand@test.com → Brand Dashboard</p>
-            <p className="text-primary">Any other email → Customer</p>
+            <p className="text-primary">admin@test.com (password: demo123) → Super Admin</p>
+            <p className="text-primary">brand@test.com (password: demo123) → Brand Dashboard</p>
+            <p className="text-primary">Any other email (password: demo123) → Customer</p>
           </div>
         </CardContent>
       </Card>
