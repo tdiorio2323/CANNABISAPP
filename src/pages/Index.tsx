@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import CustomerApp from "@/components/CustomerApp";
-import { AuthPage } from "@/components/AuthPage";
-import { CheckoutFlow } from "@/components/CheckoutFlow";
-import SuperAdminDashboard from "@/components/SuperAdminDashboard";
-import BrandDashboard from "@/components/BrandDashboard";
-import { Toaster } from "@/components/ui/toaster";
 
 const Index = () => {
   const navigate = useNavigate();
-  const [currentView, setCurrentView] = useState<'auth' | 'customer' | 'checkout' | 'admin' | 'brand' | 'orderComplete'>('auth');
-  const [cartItems, setCartItems] = useState([]);
-  const [cartTotal, setCartTotal] = useState(0);
-  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     // Check current session
@@ -27,8 +17,13 @@ const Index = () => {
           .single()
           .then(({ data }) => {
             if (data) {
-              setUserRole(data.role);
-              handleLogin(data.role as 'customer' | 'brand' | 'admin');
+              if (data.role === 'admin') {
+                navigate('/admin');
+              } else if (data.role === 'brand') {
+                navigate('/brand');
+              } else {
+                navigate('/shop');
+              }
             }
           });
       } else {
@@ -47,47 +42,30 @@ const Index = () => {
           .single()
           .then(({ data }) => {
             if (data) {
-              setUserRole(data.role);
-              handleLogin(data.role as 'customer' | 'brand' | 'admin');
+              if (data.role === 'admin') {
+                navigate('/admin');
+              } else if (data.role === 'brand') {
+                navigate('/brand');
+              } else {
+                navigate('/shop');
+              }
             }
           });
       } else if (event === 'SIGNED_OUT') {
         navigate('/auth');
-        setUserRole(null);
       }
     });
 
     return () => subscription.unsubscribe();
   }, [navigate]);
 
-  const handleLogin = (role: 'customer' | 'brand' | 'admin') => {
-    if (role === 'admin') {
-      navigate('/admin');
-    } else if (role === 'brand') {
-      navigate('/brand');
-    } else {
-      navigate('/shop');
-    }
-  };
-
-  const handleCheckout = (items: any[], total: number) => {
-    setCartItems(items);
-    setCartTotal(total);
-    navigate('/checkout');
-  };
-
-  const handleOrderComplete = () => {
-    navigate('/shop');
-    setCartItems([]);
-    setCartTotal(0);
-  };
-
-  // Default to customer app for authenticated users
   return (
-    <>
-      <CustomerApp onCheckout={handleCheckout} />
-      <Toaster />
-    </>
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    </div>
   );
 };
 

@@ -31,17 +31,7 @@ const Auth = () => {
     });
   }, [navigate]);
 
-  const handleLogin = (role: 'customer' | 'brand' | 'admin') => {
-    if (role === 'admin') {
-      navigate('/admin');
-    } else if (role === 'brand') {
-      navigate('/brand');
-    } else {
-      navigate('/shop');
-    }
-  };
-
-  return <AuthPage onLogin={handleLogin} />;
+  return <AuthPage />;
 };
 
 export default Auth;

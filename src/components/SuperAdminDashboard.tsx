@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import { 
   BarChart, 
   Bar, 
@@ -37,11 +40,23 @@ import {
   Settings,
   Activity,
   Package,
-  Eye
+  Eye,
+  LogOut
 } from "lucide-react";
 
 const SuperAdminDashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate('/auth');
+      toast.success('Logged out successfully');
+    } catch (error) {
+      toast.error('Error logging out');
+    }
+  };
 
   // Mock platform data
   const platformStats = {
@@ -78,6 +93,10 @@ const SuperAdminDashboard = () => {
           </div>
           <div className="ml-auto flex items-center space-x-4">
             <Badge variant="outline">Platform Administrator</Badge>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Logout
+            </Button>
             <Avatar className="h-8 w-8">
               <AvatarFallback>SA</AvatarFallback>
             </Avatar>

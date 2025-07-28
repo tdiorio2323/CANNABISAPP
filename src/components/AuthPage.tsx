@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,10 +9,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 interface AuthPageProps {
-  onLogin: (role: 'customer' | 'brand' | 'admin') => void;
+  onLogin?: (role: 'customer' | 'brand' | 'admin') => void;
 }
 
 export const AuthPage = ({ onLogin }: AuthPageProps) => {
+  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -86,7 +88,19 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
 
       if (profileError) console.error('Profile error:', profileError);
 
-      onLogin(role);
+      // Navigate based on role
+      if (role === 'admin') {
+        navigate('/admin');
+      } else if (role === 'brand') {
+        navigate('/brand');
+      } else {
+        navigate('/shop');
+      }
+      
+      // Call onLogin if provided (for backward compatibility)
+      if (onLogin) {
+        onLogin(role);
+      }
 
     } catch (error: any) {
       toast({
@@ -100,11 +114,11 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
   };
 
   const handleGoogleAuth = () => {
-    onLogin('customer'); // Mock Google auth
+    navigate('/shop'); // Mock Google auth
   };
 
   const handleAppleAuth = () => {
-    onLogin('customer'); // Mock Apple auth
+    navigate('/shop'); // Mock Apple auth
   };
 
   return (

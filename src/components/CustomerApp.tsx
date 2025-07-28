@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Plus, Minus, ShoppingCart, Star, Heart, Filter, Search, User, MapPin, Clock } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -33,6 +34,7 @@ interface CustomerAppProps {
 }
 
 const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -145,6 +147,11 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
                   onClick={() => {
                     if (cart.length > 0 && onCheckout) {
                       onCheckout(cart, cartTotal);
+                    } else if (cart.length > 0) {
+                      // Store cart data and navigate to checkout
+                      sessionStorage.setItem('cartItems', JSON.stringify(cart));
+                      sessionStorage.setItem('cartTotal', cartTotal.toString());
+                      navigate('/checkout');
                     } else {
                       toast.info('Add items to cart first!');
                     }

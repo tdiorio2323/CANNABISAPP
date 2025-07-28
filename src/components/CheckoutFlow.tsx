@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +26,7 @@ interface CheckoutFlowProps {
 }
 
 export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: CheckoutFlowProps) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [deliveryInfo, setDeliveryInfo] = useState({
     address: "",
@@ -54,7 +56,14 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
     setStep(3);
     // Simulate processing
     setTimeout(() => {
-      onOrderComplete();
+      if (onOrderComplete) {
+        onOrderComplete();
+      } else {
+        // Clear cart data and navigate to shop
+        sessionStorage.removeItem('cartItems');
+        sessionStorage.removeItem('cartTotal');
+        navigate('/shop');
+      }
     }, 2000);
   };
 
@@ -74,6 +83,13 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
             <Button onClick={onOrderComplete} className="w-full mt-4">
               Track Order
             </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => navigate('/shop')} 
+              className="w-full mt-2"
+            >
+              Continue Shopping
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -86,6 +102,13 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
       <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-b border-border p-4 z-50">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={onBack}>
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => navigate('/shop')}
+          >
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-xl font-semibold">Checkout</h1>
