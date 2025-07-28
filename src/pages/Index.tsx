@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import CustomerApp from "@/components/CustomerApp";
 import { AuthPage } from "@/components/AuthPage";
@@ -8,6 +9,7 @@ import BrandDashboard from "@/components/BrandDashboard";
 import { Toaster } from "@/components/ui/toaster";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState<'auth' | 'customer' | 'checkout' | 'admin' | 'brand' | 'orderComplete'>('auth');
   const [cartItems, setCartItems] = useState([]);
   const [cartTotal, setCartTotal] = useState(0);
@@ -29,6 +31,9 @@ const Index = () => {
               handleLogin(data.role as 'customer' | 'brand' | 'admin');
             }
           });
+      } else {
+        // No session, redirect to auth
+        navigate('/auth');
       }
     });
 
@@ -47,77 +52,37 @@ const Index = () => {
             }
           });
       } else if (event === 'SIGNED_OUT') {
-        setCurrentView('auth');
+        navigate('/auth');
         setUserRole(null);
       }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate]);
 
   const handleLogin = (role: 'customer' | 'brand' | 'admin') => {
     if (role === 'admin') {
-      setCurrentView('admin');
+      navigate('/admin');
     } else if (role === 'brand') {
-      setCurrentView('brand');
+      navigate('/brand');
     } else {
-      setCurrentView('customer');
+      navigate('/shop');
     }
   };
 
   const handleCheckout = (items: any[], total: number) => {
     setCartItems(items);
     setCartTotal(total);
-    setCurrentView('checkout');
+    navigate('/checkout');
   };
 
   const handleOrderComplete = () => {
-    setCurrentView('customer');
+    navigate('/shop');
     setCartItems([]);
     setCartTotal(0);
   };
 
-  if (currentView === 'auth') {
-    return (
-      <>
-        <AuthPage onLogin={handleLogin} />
-        <Toaster />
-      </>
-    );
-  }
-
-  if (currentView === 'admin') {
-    return (
-      <>
-        <SuperAdminDashboard />
-        <Toaster />
-      </>
-    );
-  }
-
-  if (currentView === 'brand') {
-    return (
-      <>
-        <BrandDashboard />
-        <Toaster />
-      </>
-    );
-  }
-
-  if (currentView === 'checkout') {
-    return (
-      <>
-        <CheckoutFlow
-          cartItems={cartItems}
-          total={cartTotal}
-          onBack={() => setCurrentView('customer')}
-          onOrderComplete={handleOrderComplete}
-        />
-        <Toaster />
-      </>
-    );
-  }
-
+  // Default to customer app for authenticated users
   return (
     <>
       <CustomerApp onCheckout={handleCheckout} />
