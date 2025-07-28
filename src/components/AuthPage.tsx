@@ -134,19 +134,17 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/10 text-white placeholder:text-white/70 border-white/30"
+                className="bg-white/10 text-white placeholder:text-white/70 border-white/30 h-14"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -154,13 +152,13 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-white/10 text-white placeholder:text-white/70 border-white/30 pr-10"
+                  className="bg-white/10 text-white placeholder:text-white/70 border-white/30 pr-10 h-14"
                 />
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-14 px-3 py-2 hover:bg-transparent"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
