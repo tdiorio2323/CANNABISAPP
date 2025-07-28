@@ -137,14 +137,6 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               </div>
               
               <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2 text-white/80">
-                  <MapPin className="h-4 w-4" />
-                  <span className="text-sm">Brooklyn, NY</span>
-                </div>
-                <div className="flex items-center space-x-2 text-white/80">
-                  <Clock className="h-4 w-4" />
-                  <span className="text-sm">Open until 10 PM</span>
-                </div>
                 <Button 
                   variant="outline" 
                   size="sm" 
