@@ -101,16 +101,19 @@ export const CheckoutFlow = ({ cartItems, total, onBack, onOrderComplete }: Chec
       {/* Header */}
       <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-b border-border p-4 z-50">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" onClick={onBack}>
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => navigate('/shop')}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
+          {onBack ? (
+            <Button variant="ghost" size="icon" onClick={onBack}>
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          ) : (
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={() => navigate('/shop')}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          )}
           <h1 className="text-xl font-semibold">Checkout</h1>
         </div>
         
