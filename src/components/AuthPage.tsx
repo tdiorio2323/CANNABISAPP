@@ -41,65 +41,54 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
         authResult = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/`,
+          }
+        });
+        
+        if (authResult.error) throw authResult.error;
+        
+        toast({
+          title: "Account Created",
+          description: "Please check your email to verify your account",
         });
       } else {
-        // For demo accounts, try to sign in first, if it fails, create the account
-        const isDemoAccount = email === 'admin@test.com' || email === 'brand@test.com';
-        
         authResult = await supabase.auth.signInWithPassword({
           email,
           password,
         });
         
-        // If sign in fails for demo accounts, create them automatically
-        if (authResult.error && isDemoAccount && authResult.error.message !== 'Invalid login credentials') {
-          authResult = await supabase.auth.signUp({
-            email,
-            password,
-          });
+        if (authResult.error) throw authResult.error;
+      }
+
+      if (authResult.data.user && !isSignUp) {
+        // Get user role from user_roles table
+        const { data: roleData } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', authResult.data.user.id)
+          .single();
+
+        if (roleData) {
+          const userRole = roleData.role;
           
-          if (!authResult.error) {
-            toast({
-              title: "Demo Account Created",
-              description: "Demo account created and signed in successfully",
-            });
+          // Navigate based on role
+          if (userRole === 'admin') {
+            navigate('/admin');
+          } else if (userRole === 'brand') {
+            navigate('/brand');
+          } else {
+            navigate('/shop');
           }
+          
+          // Call onLogin if provided (for backward compatibility)
+          if (onLogin) {
+            onLogin(userRole);
+          }
+        } else {
+          // Default to customer role if no role found
+          navigate('/shop');
         }
-      }
-
-      if (authResult.error) throw authResult.error;
-
-      // Create or update user profile
-      const role = email.includes('admin') ? 'admin' : 
-                  email.includes('brand') ? 'brand' : 'customer';
-      
-      // Use the correct brand_id for brand users
-      const brandId = email.includes('brand') ? '11111111-1111-1111-1111-111111111111' : null;
-      
-      const { error: profileError } = await supabase
-        .from('users')
-        .upsert({
-          id: authResult.data.user?.id,
-          email: email,
-          name: email.split('@')[0],
-          role: role,
-          brand_id: brandId
-        });
-
-      if (profileError) console.error('Profile error:', profileError);
-
-      // Navigate based on role
-      if (role === 'admin') {
-        navigate('/admin');
-      } else if (role === 'brand') {
-        navigate('/brand');
-      } else {
-        navigate('/shop');
-      }
-      
-      // Call onLogin if provided (for backward compatibility)
-      if (onLogin) {
-        onLogin(role);
       }
 
     } catch (error: any) {
@@ -265,53 +254,14 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
             <span className="text-primary hover:underline cursor-pointer">Privacy Policy</span>
           </p>
 
-          <div className="text-xs text-center bg-white p-3 rounded-lg">
-            <p className="font-medium mb-1 text-primary">Demo Accounts:</p>
-            <p className="text-primary">admin@test.com (password: demo123) → Super Admin</p>
-            <p className="text-primary">brand@test.com (password: demo123) → Brand Dashboard</p>
-            <p className="text-primary">Any other email (password: demo123) → Customer</p>
-            
-            <div className="mt-3 pt-3 border-t border-primary/20">
-              <p className="font-medium mb-2 text-primary text-sm">Quick Demo Access:</p>
-              <div className="flex gap-2 justify-center">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
-                  onClick={() => {
-                    console.log('Admin button clicked');
-                    setEmail('admin@test.com');
-                    setPassword('demo123');
-                  }}
-                >
-                  Admin
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
-                  onClick={() => {
-                    console.log('User button clicked');
-                    setEmail('user@test.com');
-                    setPassword('demo123');
-                  }}
-                >
-                  User
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs px-3 py-1 h-8 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
-                  onClick={() => {
-                    console.log('Brand button clicked');
-                    setEmail('brand@test.com');
-                    setPassword('demo123');
-                  }}
-                >
-                  Brand
-                </Button>
-              </div>
-            </div>
+          <div className="text-xs text-center bg-white/10 backdrop-blur-sm p-3 rounded-lg border border-white/20">
+            <p className="font-medium mb-2 text-white">Secure Authentication</p>
+            <p className="text-white/70 mb-3">
+              Create your account or sign in with your existing credentials
+            </p>
+            <p className="text-white/60 text-xs">
+              All user data is protected with row-level security and proper role-based access control
+            </p>
           </div>
         </CardContent>
       </Card>

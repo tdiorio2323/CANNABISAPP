@@ -8,13 +8,13 @@ const Auth = () => {
 
   useEffect(() => {
     // Check if user is already logged in
-    supabase.auth.getSession().then(({ data: { session } }) => {
+      supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        // Get user role and redirect accordingly
+        // Get user role from user_roles table
         supabase
-          .from('users')
+          .from('user_roles')
           .select('role')
-          .eq('id', session.user.id)
+          .eq('user_id', session.user.id)
           .single()
           .then(({ data }) => {
             if (data) {
@@ -25,6 +25,9 @@ const Auth = () => {
               } else {
                 navigate('/shop');
               }
+            } else {
+              // Default to shop if no role found
+              navigate('/shop');
             }
           });
       }

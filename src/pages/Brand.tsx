@@ -15,9 +15,9 @@ const Brand = () => {
       }
 
       supabase
-        .from('users')
+        .from('user_roles')
         .select('role')
-        .eq('id', session.user.id)
+        .eq('user_id', session.user.id)
         .single()
         .then(({ data }) => {
           if (!data || data.role !== 'brand') {
