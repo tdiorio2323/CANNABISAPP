@@ -130,7 +130,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               <img 
                 src="/lovable-uploads/677a8de4-c4a7-4591-9b1b-b0a474631de7.png" 
                 alt="TD Studios" 
-                className="h-40 w-auto"
+                className="h-10 w-auto"
               />
             </div>
             
