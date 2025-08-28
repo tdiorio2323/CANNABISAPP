@@ -123,11 +123,11 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
       
-      <Card className="w-full max-w-md bg-black/15 backdrop-blur-lg border-white/30 border-2 shadow-2xl shadow-black/50 relative z-10">
+      <Card className="w-full max-w-md bg-black/10 backdrop-blur-sm border-white/10 shadow-2xl relative z-10">
         <CardHeader className="text-center space-y-4">
           <div className="flex items-center justify-center">
             <img 
-              src="/lovable-uploads/d5a7b980-44ec-49f6-bee8-c6858ca93ae5.png" 
+              src="/lovable-uploads/9d23fdcd-25dd-46bf-bedd-97557e70bf90.png" 
               alt="Bag Man NY" 
               className="h-40 w-auto"
             />
@@ -255,12 +255,12 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           </p>
 
           <div className="text-xs text-center bg-white/10 backdrop-blur-sm p-3 rounded-lg border border-white/20">
-            <p className="font-medium mb-2 text-white">Admin Sign In</p>
+            <p className="font-medium mb-2 text-white">Secure Authentication</p>
             <p className="text-white/70 mb-3">
-              Access the administrative dashboard with elevated privileges
+              Create your account or sign in with your existing credentials
             </p>
             <p className="text-white/60 text-xs">
-              Admin accounts have full system access and management capabilities
+              All user data is protected with row-level security and proper role-based access control
             </p>
           </div>
         </CardContent>

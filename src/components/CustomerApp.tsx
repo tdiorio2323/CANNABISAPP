@@ -119,7 +119,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url('/lovable-uploads/00a3ca73-c7b5-4caf-be11-2b1107efb913.png')`
+      backgroundImage: `url('/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png')`
     }}>
       <div className="min-h-screen bg-black/60 backdrop-blur-sm">
         {/* Header */}
@@ -128,15 +128,18 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
             {/* Top row with centered logo */}
             <div className="flex justify-center mb-4">
               <img 
-                src="/lovable-uploads/677a8de4-c4a7-4591-9b1b-b0a474631de7.png" 
+                src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
                 alt="TD Studios" 
-                className="h-10 w-auto"
+                className="h-16 w-auto"
               />
             </div>
             
-            {/* Bottom row with cart button */}
+            {/* Bottom row with CABANA text and cart button */}
             <div className="flex items-center justify-center relative">
-              <div className="absolute right-0 top-0">
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-white">CABANA</h1>
+              </div>
+              <div className="absolute right-0">
                 <Button 
                   variant="outline" 
                   size="sm" 
@@ -296,21 +299,31 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               <div className="space-y-4">
                 <img 
                   src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
-                  alt="TD Studios" 
-                  className="h-24 w-auto"
+                  alt="Cabana" 
+                  className="h-8 w-auto"
                 />
                 <p className="text-white/60 text-sm">
                   Premium cannabis delivery service bringing you the finest products right to your door.
                 </p>
+                <div className="flex space-x-4">
+                  <a href="#" className="text-white/60 hover:text-white transition-colors">
+                    <span className="sr-only">Instagram</span>
+                    <div className="w-6 h-6 bg-white/20 rounded"></div>
+                  </a>
+                  <a href="#" className="text-white/60 hover:text-white transition-colors">
+                    <span className="sr-only">Twitter</span>
+                    <div className="w-6 h-6 bg-white/20 rounded"></div>
+                  </a>
+                </div>
               </div>
               
               <div>
                 <h3 className="font-semibold text-white mb-4">Quick Links</h3>
                 <ul className="space-y-2 text-sm">
-                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Designs</a></li>
-                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Menus</a></li>
-                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Marketing</a></li>
-                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Contact</a></li>
+                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Shop All</a></li>
+                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Flower</a></li>
+                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Edibles</a></li>
+                  <li><a href="#" className="text-white/60 hover:text-white transition-colors">Pre-rolls</a></li>
                 </ul>
               </div>
               
@@ -325,7 +338,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               </div>
               
               <div>
-                <h3 className="font-semibold text-white mb-4">FOLLOW @TDSTUDIOS.IO</h3>
+                <h3 className="font-semibold text-white mb-4">Follow @cabana</h3>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="aspect-square bg-white/10 rounded-lg"></div>
                   <div className="aspect-square bg-white/10 rounded-lg"></div>
