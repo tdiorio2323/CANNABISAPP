@@ -255,12 +255,12 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           </p>
 
           <div className="text-xs text-center bg-white/10 backdrop-blur-sm p-3 rounded-lg border border-white/20">
-            <p className="font-medium mb-2 text-white">Secure Authentication</p>
+            <p className="font-medium mb-2 text-white">Admin Sign In</p>
             <p className="text-white/70 mb-3">
-              Create your account or sign in with your existing credentials
+              Access the administrative dashboard with elevated privileges
             </p>
             <p className="text-white/60 text-xs">
-              All user data is protected with row-level security and proper role-based access control
+              Admin accounts have full system access and management capabilities
             </p>
           </div>
         </CardContent>
