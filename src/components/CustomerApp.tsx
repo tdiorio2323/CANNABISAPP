@@ -130,13 +130,13 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               <img 
                 src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
                 alt="TD Studios" 
-                className="h-16 w-auto"
+                className="h-40 w-auto"
               />
             </div>
             
             {/* Bottom row with cart button */}
             <div className="flex items-center justify-center relative">
-              <div className="absolute right-0">
+              <div className="absolute right-0 top-0">
                 <Button 
                   variant="outline" 
                   size="sm" 
