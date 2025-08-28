@@ -123,7 +123,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
       {/* Dark overlay for better contrast */}
       <div className="absolute inset-0 bg-black/40" />
       
-      <Card className="w-full max-w-md bg-black/10 backdrop-blur-sm border-white/10 shadow-2xl relative z-10">
+      <Card className="w-full max-w-md bg-black/15 backdrop-blur-lg border-white/30 border-2 shadow-2xl shadow-black/50 relative z-10">
         <CardHeader className="text-center space-y-4">
           <div className="flex items-center justify-center">
             <img 
