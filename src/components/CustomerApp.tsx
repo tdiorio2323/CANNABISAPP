@@ -128,7 +128,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
             {/* Top row with centered logo */}
             <div className="flex justify-center mb-4">
               <img 
-                src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
+                src="/lovable-uploads/677a8de4-c4a7-4591-9b1b-b0a474631de7.png" 
                 alt="TD Studios" 
                 className="h-40 w-auto"
               />
