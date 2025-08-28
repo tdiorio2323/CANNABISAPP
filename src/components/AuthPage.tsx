@@ -127,7 +127,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
         <CardHeader className="text-center space-y-4">
           <div className="flex items-center justify-center">
             <img 
-              src="/lovable-uploads/9d23fdcd-25dd-46bf-bedd-97557e70bf90.png" 
+              src="/lovable-uploads/d5a7b980-44ec-49f6-bee8-c6858ca93ae5.png" 
               alt="Bag Man NY" 
               className="h-40 w-auto"
             />
