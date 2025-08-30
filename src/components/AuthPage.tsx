@@ -91,26 +91,19 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
       
       <Card className="w-full max-w-md bg-black/10 backdrop-blur-sm border-white/10 shadow-2xl relative z-10">
         <CardHeader className="text-center space-y-4">
-          <div className="flex items-center justify-center">
-            <img 
-              src="/lovable-uploads/9d23fdcd-25dd-46bf-bedd-97557e70bf90.png" 
-              alt="Bag Man NY" 
-              className="h-40 w-auto"
-            />
-          </div>
           <p className="text-muted-foreground">Welcome back</p>
           
           <div className="flex rounded-lg bg-muted p-1">
             <Button
               variant={!isSignUp ? "default" : "ghost"}
-              className="flex-1 text-sm"
+              className={`flex-1 text-sm ${!isSignUp ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'hover:bg-yellow-500/20 hover:text-yellow-400'}`}
               onClick={() => setIsSignUp(false)}
             >
               Sign In
             </Button>
             <Button
               variant={isSignUp ? "default" : "ghost"}
-              className="flex-1 text-sm"
+              className={`flex-1 text-sm ${isSignUp ? 'bg-yellow-500 hover:bg-yellow-600 text-black' : 'hover:bg-yellow-500/20 hover:text-yellow-400'}`}
               onClick={() => setIsSignUp(true)}
             >
               Sign Up
@@ -145,7 +138,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="absolute right-0 top-0 h-14 px-3 py-2 hover:bg-transparent"
+                  className="absolute right-0 top-0 h-14 px-3 py-2 hover:bg-yellow-500/20"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -157,7 +150,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
               </div>
             </div>
 
-            <Button type="submit" disabled={isLoading} className="w-full">
+            <Button type="submit" disabled={isLoading} className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
               {isLoading ? "Loading..." : (isSignUp ? "Sign Up" : "Sign In")}
             </Button>
           </form>
@@ -174,7 +167,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           <div className="space-y-3">
             <Button
               variant="outline"
-              className="w-full bg-white text-black hover:bg-gray-50 border-gray-300"
+              className="w-full bg-yellow-500 text-black hover:bg-yellow-600 border-yellow-400"
               onClick={handleGoogleAuth}
             >
               <div className="w-5 h-5 mr-2">
@@ -202,7 +195,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
 
             <Button
               variant="outline"
-              className="w-full bg-black text-white hover:bg-gray-900 border-gray-800"
+              className="w-full bg-yellow-500 text-black hover:bg-yellow-600 border-yellow-400"
               onClick={handleAppleAuth}
             >
               <div className="w-5 h-5 mr-2">
