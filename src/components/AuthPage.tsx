@@ -84,6 +84,13 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
       
       <Card className="w-full max-w-md bg-black/10 backdrop-blur-sm border-white/10 shadow-2xl relative z-10">
         <CardHeader className="text-center space-y-4">
+          <div className="flex items-center justify-center">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2F8d5a64d26c0a4781a3269eef89d71661%2F2d3923d943614b4894f096117815d2be?format=webp&width=800"
+              alt="Quick Printz Logo"
+              className="h-32 w-auto"
+            />
+          </div>
           <p className="text-muted-foreground">Welcome back</p>
           
           <div className="flex rounded-lg bg-muted p-1">
