@@ -13,10 +13,7 @@ interface AuthPageProps {
 
 export const AuthPage = ({ onLogin }: AuthPageProps) => {
   const navigate = useNavigate();
-  const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
