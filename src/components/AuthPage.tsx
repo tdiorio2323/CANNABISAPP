@@ -32,73 +32,40 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
     }
 
     setIsLoading(true);
-    
-    try {
-      let authResult;
-      
-      if (isSignUp) {
-        authResult = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`,
-          }
-        });
-        
-        if (authResult.error) throw authResult.error;
-        
-        toast({
-          title: "Account Created",
-          description: "Please check your email to verify your account",
-        });
-      } else {
-        authResult = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        
-        if (authResult.error) throw authResult.error;
-      }
 
-      if (authResult.data.user && !isSignUp) {
-        // Get user role from user_roles table
-        const { data: roleData } = await supabase
-          .from('user_roles')
-          .select('role')
-          .eq('user_id', authResult.data.user.id)
-          .single();
-
-        if (roleData) {
-          const userRole = roleData.role;
-          
-          // Navigate based on role
-          if (userRole === 'admin') {
-            navigate('/admin');
-          } else if (userRole === 'brand') {
-            navigate('/brand');
-          } else {
-            navigate('/shop');
-          }
-          
-          // Call onLogin if provided (for backward compatibility)
-          if (onLogin) {
-            onLogin(userRole);
-          }
+    // Simulate authentication delay
+    setTimeout(() => {
+      try {
+        if (isSignUp) {
+          toast({
+            title: "Account Created",
+            description: "Welcome! Your account has been created successfully.",
+          });
         } else {
-          // Default to customer role if no role found
-          navigate('/shop');
+          toast({
+            title: "Welcome back!",
+            description: "You have been signed in successfully.",
+          });
         }
-      }
 
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
+        // For demo purposes, navigate to shop page
+        navigate('/shop');
+
+        // Call onLogin if provided (for backward compatibility)
+        if (onLogin) {
+          onLogin('customer');
+        }
+
+      } catch (error: any) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive"
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }, 1000);
   };
 
   const handleGoogleAuth = () => {
