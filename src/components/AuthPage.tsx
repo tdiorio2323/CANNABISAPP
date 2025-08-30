@@ -17,12 +17,22 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  const handleKeypadPress = (digit: string) => {
+    if (password.length < 3) {
+      setPassword(prev => prev + digit);
+    }
+  };
+
+  const handleKeypadClear = () => {
+    setPassword("");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
+    if (password !== "420") {
       toast({
         title: "Error",
-        description: "Please fill in all fields",
+        description: "Invalid password",
         variant: "destructive"
       });
       return;
@@ -33,17 +43,10 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
     // Simulate authentication delay
     setTimeout(() => {
       try {
-        if (isSignUp) {
-          toast({
-            title: "Account Created",
-            description: "Welcome! Your account has been created successfully.",
-          });
-        } else {
-          toast({
-            title: "Welcome back!",
-            description: "You have been signed in successfully.",
-          });
-        }
+        toast({
+          title: "Welcome back!",
+          description: "You have been signed in successfully.",
+        });
 
         // For demo purposes, navigate to shop page
         navigate('/shop');
