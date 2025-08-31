@@ -118,16 +118,29 @@ const BrandDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div 
+      className="min-h-screen relative"
+      style={{
+        backgroundImage: `url('/lovable-uploads/9625d965-6a42-4323-8497-34b244302dc2.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Overlay for better contrast */}
+      <div className="absolute inset-0 bg-black/20 backdrop-blur-[0.5px]" />
+      
+      <div className="relative z-10">
       <div className="border-b">
         <div className="flex h-16 items-center px-6">
           <h1 className="text-2xl font-semibold">Brand Dashboard</h1>
           <div className="ml-auto flex items-center space-x-4">
-            <Button variant="outline" size="sm">
+            <Button variant="frost" size="sm">
               <Calendar className="mr-2 h-4 w-4" />
               Last 30 days
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
+            <Button variant="frost" size="sm" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-2" />
               Logout
             </Button>
@@ -292,7 +305,7 @@ const BrandDashboard = () => {
           <TabsContent value="products" className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold">Products</h2>
-              <Button>
+              <Button variant="frost">
                 <Upload className="mr-2 h-4 w-4" />
                 Add Product
               </Button>
@@ -509,6 +522,7 @@ const BrandDashboard = () => {
             </div>
           </TabsContent>
         </Tabs>
+      </div>
       </div>
     </div>
   );
