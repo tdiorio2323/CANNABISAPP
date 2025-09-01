@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 interface AuthPageProps {
   onLogin?: (role: 'customer' | 'brand' | 'admin') => void;
@@ -70,7 +71,7 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
     <div 
       className="min-h-screen flex items-center justify-center p-4 relative"
       style={{
-        backgroundImage: `url('/lovable-uploads/fa9437b3-6b52-4add-a826-421f47af7c9c.png')`,
+        backgroundImage: `url('/lovable-uploads/f930301b-774c-429c-97b7-b7f1cb17f432.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -132,21 +133,23 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
               variant="outline"
             >
               <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                <span className="font-bebas text-2xl tracking-widest animate-slide-right whitespace-nowrap">
-                  ENTER ENTER ENTER ENTER ENTER
+                <span className="font-bebas text-2xl tracking-[0.5em] animate-slide-right whitespace-nowrap">
+                  E N T E R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E N T E R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E N T E R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E N T E R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E N T E R
                 </span>
               </div>
-              <span className="relative z-10 font-bebas text-2xl tracking-widest opacity-0">
-                ENTER
+              <span className="relative z-10 font-bebas text-2xl tracking-[0.5em] opacity-0">
+                E N T E R
               </span>
             </Button>
           </form>
 
-          <p className="text-xs text-center text-muted-foreground">
-            By continuing, you agree to our{" "}
-            <span className="text-primary hover:underline cursor-pointer">Terms of Service</span> and{" "}
-            <span className="text-primary hover:underline cursor-pointer">Privacy Policy</span>
-          </p>
+          {/* Social Icons */}
+          <div className="flex justify-center items-center space-x-8 max-w-xs mx-auto px-4">
+            <Facebook className="w-6 h-6 text-white/70 hover:text-white cursor-pointer transition-colors" />
+            <Instagram className="w-6 h-6 text-white/70 hover:text-white cursor-pointer transition-colors" />
+            <Twitter className="w-6 h-6 text-white/70 hover:text-white cursor-pointer transition-colors" />
+            <Youtube className="w-6 h-6 text-white/70 hover:text-white cursor-pointer transition-colors" />
+          </div>
         </CardContent>
       </Card>
     </div>
