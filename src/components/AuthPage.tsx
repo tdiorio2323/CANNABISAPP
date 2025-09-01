@@ -83,29 +83,15 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
         <CardHeader className="text-center space-y-6">
           <div className="flex items-center justify-center">
             <img
-              src="https://cdn.builder.io/api/v1/image/assets%2F8d5a64d26c0a4781a3269eef89d71661%2F2d3923d943614b4894f096117815d2be?format=webp&width=800"
-              alt="Quick Printz Logo"
+              src="/lovable-uploads/f930301b-774c-429c-97b7-b7f1cb17f432.png"
+              alt="Cabana Logo"
               className="h-64 w-auto"
             />
           </div>
           <p className="text-muted-foreground text-lg">Welcome back</p>
         </CardHeader>
 
-        <CardContent className="space-y-6">
-          {/* Password Display */}
-          <div className="text-center">
-            <div className="flex justify-center space-x-2 mb-4">
-              {[0, 1, 2].map((index) => (
-                <div
-                  key={index}
-                  className="w-12 h-12 border-2 border-white/30 rounded-lg bg-white/10 flex items-center justify-center text-white text-xl font-bold"
-                >
-                  {password[index] ? "●" : ""}
-                </div>
-              ))}
-            </div>
-          </div>
-
+        <CardContent className="space-y-6 pb-8">
           {/* Keypad */}
           <div className="grid grid-cols-3 gap-4 max-w-xs mx-auto">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((digit) => (
@@ -139,27 +125,28 @@ export const AuthPage = ({ onLogin }: AuthPageProps) => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <Button type="submit" disabled={isLoading} className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
-              {isLoading ? "Loading..." : "Sign In"}
+            <Button 
+              type="submit" 
+              disabled={isLoading} 
+              className="w-full h-16 relative overflow-hidden bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm"
+              variant="outline"
+            >
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                <span className="font-bebas text-2xl tracking-widest animate-slide-right whitespace-nowrap">
+                  ENTER ENTER ENTER ENTER ENTER
+                </span>
+              </div>
+              <span className="relative z-10 font-bebas text-2xl tracking-widest opacity-0">
+                ENTER
+              </span>
             </Button>
           </form>
-
 
           <p className="text-xs text-center text-muted-foreground">
             By continuing, you agree to our{" "}
             <span className="text-primary hover:underline cursor-pointer">Terms of Service</span> and{" "}
             <span className="text-primary hover:underline cursor-pointer">Privacy Policy</span>
           </p>
-
-          <div className="text-xs text-center bg-white/10 backdrop-blur-sm p-3 rounded-lg border border-white/20">
-            <p className="font-medium mb-2 text-white">Secure Authentication</p>
-            <p className="text-white/70 mb-3">
-              Create your account or sign in with your existing credentials
-            </p>
-            <p className="text-white/60 text-xs">
-              All user data is protected with row-level security and proper role-based access control
-            </p>
-          </div>
         </CardContent>
       </Card>
     </div>
