@@ -119,7 +119,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url('/lovable-uploads/100c1251-d4f7-413c-a115-dbbfa5066289.png')`
+      backgroundImage: `url('/lovable-uploads/6884296d-7d53-4d5f-8169-0418ff1d5824.png')`
     }}>
       <div className="min-h-screen bg-black/60 backdrop-blur-sm">
         {/* Header */}
@@ -134,11 +134,8 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               />
             </div>
             
-            {/* Bottom row with CABANA text and cart button */}
+            {/* Bottom row with cart button */}
             <div className="flex items-center justify-center relative">
-              <div className="text-center">
-                <h1 className="text-2xl font-bold text-white">CABANA</h1>
-              </div>
               <div className="absolute right-0">
                 <Button 
                   variant="outline" 
