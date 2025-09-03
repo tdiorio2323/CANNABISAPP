@@ -27,9 +27,9 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { MediaTile } from "@/components/MediaTile";
-import { SubscriptionButton, TipButton } from "@/components/PaymentButtons";
-import { PaymentVerifier } from "@/components/PaymentVerifier";
+// import { MediaTile } from "@/components/MediaTile";
+// import { SubscriptionButton, TipButton } from "@/components/PaymentButtons";
+// import { PaymentVerifier } from "@/components/PaymentVerifier";
 import { supabase } from '@/integrations/supabase/supabase';
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -225,7 +225,7 @@ export default function CreatorProfile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <PaymentVerifier />
+      {/* <PaymentVerifier /> */}
       
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
@@ -355,7 +355,7 @@ export default function CreatorProfile() {
                 {isFollowing ? 'Following' : 'Follow'}
               </Button>
               
-              {creatorProfile.subscription_price && (
+              {/* {creatorProfile.subscription_price && (
                 <SubscriptionButton
                   creatorId={creatorProfile.user_id}
                   creatorName={creatorProfile.display_name || creatorProfile.username}
@@ -369,7 +369,7 @@ export default function CreatorProfile() {
                 creatorId={creatorProfile.user_id}
                 creatorName={creatorProfile.display_name || creatorProfile.username}
                 className="flex-1 min-w-0"
-              />
+              /> */}
               
               <Button variant="outline" size="icon" className="border-gray-300 hover:bg-gray-50">
                 <MessageCircle className="w-4 h-4" />
