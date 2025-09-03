@@ -1,7 +1,6 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -12,9 +11,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       SUPABASE_ANON_KEY: !!anon
     }});
   }
+  
   const supabase = createClient(url, anon);
-
-  const { name, email, instagram, ref } = (req.body || {}) as any;
+  const { name, email, instagram, ref } = req.body || {};
   if (!email) return res.status(400).json({ ok: false, reason: 'missing_email' });
 
   const { error } = await supabase.from('waitlist').insert({

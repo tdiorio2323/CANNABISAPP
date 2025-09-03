@@ -1,7 +1,6 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -12,9 +11,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       SUPABASE_SERVICE_ROLE_KEY: !!key
     }});
   }
+  
   const supabase = createClient(url, key);
-
-  const { code } = (req.body || {}) as { code?: string };
+  const { code } = req.body || {};
   if (!code) return res.status(400).json({ ok: false, reason: 'missing_code' });
 
   const { data, error } = await supabase
