@@ -31,13 +31,27 @@ export default function CreatorOnboarding(){
   }
 
   async function save(){
-    const r=await fetch("/api/creator/save",{
-      method:"POST",
-      headers:{'content-type':'application/json'},
-      body:JSON.stringify({email,profile:form})
-    });
-    const j=await r.json(); 
-    if(j.ok) nav(`/c/${handle}`);
+    // Mock API for development
+    if(window.location.hostname === 'localhost'){
+      await new Promise(resolve => setTimeout(resolve, 500));
+      // Store profile data in localStorage for mock
+      localStorage.setItem("creator_profile", JSON.stringify(form));
+      nav(`/c/${handle}`);
+      return;
+    }
+    
+    // Production API call
+    try {
+      const r=await fetch("/api/creator/save",{
+        method:"POST",
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({email,profile:form})
+      });
+      const j=await r.json(); 
+      if(j.ok) nav(`/c/${handle}`);
+    } catch(error) {
+      console.error("Save failed:", error);
+    }
   }
 
   return (

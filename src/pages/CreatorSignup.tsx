@@ -12,19 +12,41 @@ export default function CreatorSignup(){
   async function reserve(){
     setBusy(true); 
     setMsg(null);
-    const r=await fetch("/api/creator/reserve",{
-      method:"POST",
-      headers:{'content-type':'application/json'},
-      body:JSON.stringify({email,handle:handle.replace(/^@/,'')})
-    });
-    const j=await r.json(); 
-    setBusy(false);
-    if(j.ok){ 
-      localStorage.setItem("creator_email",email); 
-      localStorage.setItem("creator_handle",j.handle); 
-      nav("/creator/onboarding"); 
+    
+    // Mock API for development
+    if(window.location.hostname === 'localhost'){
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API delay
+      setBusy(false);
+      if(!email || !handle) {
+        setMsg("Please fill in all fields");
+        return;
+      }
+      const cleanHandle = handle.replace(/^@/, '');
+      localStorage.setItem("creator_email", email); 
+      localStorage.setItem("creator_handle", cleanHandle); 
+      nav("/creator/onboarding");
+      return;
     }
-    else setMsg(j.reason||"error");
+    
+    // Production API call
+    try {
+      const r=await fetch("/api/creator/reserve",{
+        method:"POST",
+        headers:{'content-type':'application/json'},
+        body:JSON.stringify({email,handle:handle.replace(/^@/,'')})
+      });
+      const j=await r.json(); 
+      setBusy(false);
+      if(j.ok){ 
+        localStorage.setItem("creator_email",email); 
+        localStorage.setItem("creator_handle",j.handle); 
+        nav("/creator/onboarding"); 
+      }
+      else setMsg(j.reason||"error");
+    } catch(error) {
+      setBusy(false);
+      setMsg("Network error. Please try again.");
+    }
   }
   
   return (

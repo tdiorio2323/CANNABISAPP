@@ -10,9 +10,10 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'https://cabanagrp.com',
+        target: 'https://www.cabanagrp.com',
         changeOrigin: true,
         secure: true,
+        followRedirects: true,
       }
     }
   },

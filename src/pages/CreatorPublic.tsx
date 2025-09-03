@@ -7,9 +7,33 @@ export default function CreatorPublic(){
   const [page,setPage]=useState<any>(null);
   
   useEffect(()=>{ 
+    // Mock API for development
+    if(window.location.hostname === 'localhost'){
+      const storedProfile = localStorage.getItem("creator_profile");
+      const storedHandle = localStorage.getItem("creator_handle");
+      if(storedProfile && handle === storedHandle) {
+        setPage(JSON.parse(storedProfile));
+      } else {
+        // Mock data for demo
+        setPage({
+          handle: handle,
+          display_name: handle,
+          bio: "This is a demo creator page",
+          avatar_url: "",
+          theme: { accent: "#8b5cf6" },
+          links: [
+            { label: "Demo Link", url: "https://example.com" }
+          ]
+        });
+      }
+      return;
+    }
+    
+    // Production API call
     fetch(`/api/creator/page?handle=${handle}`)
       .then(r=>r.json())
-      .then(j=>j.ok&&setPage(j.page)); 
+      .then(j=>j.ok&&setPage(j.page))
+      .catch(err => console.error("Failed to load page:", err)); 
   },[handle]);
   
   if(!page) return null;
