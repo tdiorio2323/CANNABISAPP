@@ -43,7 +43,7 @@ const Portal = () => {
     <div 
       className="min-h-screen relative"
       style={{
-        backgroundImage: `url('/lovable-uploads/6884296d-7d53-4d5f-8169-0418ff1d5824.png')`,
+        backgroundImage: `url('/lovable-uploads/830a1f49-817d-4ee5-9db8-1b4edd4fbc15.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

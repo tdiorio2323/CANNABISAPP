@@ -119,24 +119,21 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: `url('/lovable-uploads/6884296d-7d53-4d5f-8169-0418ff1d5824.png')`
+      backgroundImage: `url('/lovable-uploads/830a1f49-817d-4ee5-9db8-1b4edd4fbc15.png')`
     }}>
       <div className="min-h-screen bg-black/60 backdrop-blur-sm">
         {/* Header */}
         <header className="bg-black/80 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
-          <div className="container mx-auto px-4 py-4">
-            {/* Top row with centered logo */}
-            <div className="flex justify-center mb-4">
+          <div className="container mx-auto px-4 py-6">
+            {/* Top row with logo and cart button */}
+            <div className="flex items-center justify-between">
               <img 
                 src="/lovable-uploads/bff2ab24-8836-4dfa-836d-bff37b607cfa.png" 
                 alt="TD Studios" 
                 className="h-16 w-auto"
               />
-            </div>
-            
-            {/* Bottom row with cart button */}
-            <div className="flex items-center justify-center relative">
-              <div className="absolute right-0">
+              
+              <div>
                 <Button 
                   variant="outline" 
                   size="sm" 
@@ -291,7 +288,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
         {/* Footer */}
         <footer className="bg-black/80 backdrop-blur-md border-t border-white/10 mt-16">
-          <div className="container mx-auto px-4 py-12">
+          <div className="container mx-auto px-4 py-5">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="space-y-4">
                 <img 
@@ -345,7 +342,7 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
               </div>
             </div>
             
-            <div className="border-t border-white/10 mt-8 pt-8 text-center">
+            <div className="border-t border-white/10 mt-4 pt-4 text-center">
               <p className="text-white/60 text-sm">
                 © 2024 Cabana. All rights reserved. Please consume responsibly.
               </p>
