@@ -33,7 +33,7 @@ import { PaymentVerifier } from "@/components/PaymentVerifier";
 import { supabase } from '@/integrations/supabase/supabase';
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { KarolProfile } from "./creator/KarolProfile";
+// import { KarolProfile } from "./KarolProfile";
 
 interface CreatorProfile {
   id: string;
