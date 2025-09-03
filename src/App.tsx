@@ -17,6 +17,9 @@ import Admin from "./pages/Admin";
 import Brand from "./pages/Brand";
 import Portal from "./pages/Portal";
 import ProjectPage from "./pages/ProjectPage";
+import Enter from "./pages/Enter";
+import Vip from "./pages/Vip";
+import ReferralRedirect from "./pages/ReferralRedirect";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +30,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Auth />} />
+          <Route path="/" element={<Enter />} />
+          <Route path="/enter" element={<Enter />} />
+          <Route path="/vip" element={<Vip />} />
+          <Route path="/r/:code" element={<ReferralRedirect />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/checkout" element={<Checkout />} />
