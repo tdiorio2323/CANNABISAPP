@@ -59,3 +59,9 @@ deploy:
 preview:
 	@echo "Deploying branch '$(BRANCH)' to PREVIEW via Vercel..."
 	npx -y vercel --yes
+test-api:
+	@echo "Testing VIP validation..."
+	@curl -s -X POST https://www.cabanagrp.com/api/vip/validate -H "content-type: application/json" -d '{"code":"1234"}'
+	@echo ""
+	@echo "Testing waitlist..."
+	@curl -s -X POST https://www.cabanagrp.com/api/waitlist -H "content-type: application/json" -d '{"email":"test@example.com"}'
