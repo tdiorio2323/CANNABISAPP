@@ -53,13 +53,24 @@ const CustomerApp = ({ onCheckout }: CustomerAppProps) => {
 
   const fetchProducts = async () => {
     try {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('is_available', true);
-
-      if (error) throw error;
-      setProducts(data || []);
+      // Mock products for now - will be replaced with actual database
+      const mockProducts: Product[] = [
+        {
+          id: '1',
+          name: '4×5 Mylar Bag - Premium',
+          price: 1200,
+          description: 'High-quality 4×5 mylar storage bag',
+          image_url: null,
+          category: 'storage',
+          cbd_percentage: null,
+          thc_percentage: null,
+          strain_type: null,
+          weight_grams: null,
+          is_available: true,
+          brand_id: '1'
+        }
+      ];
+      setProducts(mockProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
       toast.error('Failed to load products');

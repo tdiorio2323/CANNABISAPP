@@ -17,6 +17,9 @@ import Admin from "./pages/Admin";
 import Brand from "./pages/Brand";
 import Portal from "./pages/Portal";
 import ProjectPage from "./pages/ProjectPage";
+import Enter from "./pages/Enter";
+import Vip from "./pages/Vip";
+import ReferralRedirect from "./pages/ReferralRedirect";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Auth />} />
+          <Route path="/enter" element={<Enter />} />
+          <Route path="/vip" element={<Vip />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/checkout" element={<Checkout />} />
@@ -35,6 +40,7 @@ const App = () => (
           <Route path="/brand" element={<Brand />} />
           <Route path="/portal" element={<Portal />} />
           <Route path="/project/:id" element={<ProjectPage />} />
+          <Route path="/r/:code" element={<ReferralRedirect />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

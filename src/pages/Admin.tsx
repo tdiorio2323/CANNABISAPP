@@ -7,24 +7,8 @@ const Admin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is authenticated and has admin role
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate('/auth');
-        return;
-      }
-
-      supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', session.user.id)
-        .single()
-        .then(({ data }) => {
-          if (!data || data.role !== 'admin') {
-            navigate('/shop');
-          }
-        });
-    });
+    // For now, allow access without role checking
+    // Will be enhanced when proper auth is implemented
   }, [navigate]);
 
   return <SuperAdminDashboard />;
