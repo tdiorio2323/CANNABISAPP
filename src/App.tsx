@@ -20,6 +20,8 @@ import ProjectPage from "./pages/ProjectPage";
 import Enter from "./pages/Enter";
 import Vip from "./pages/Vip";
 import ReferralRedirect from "./pages/ReferralRedirect";
+import CreatorProfile from "./pages/CreatorProfile";
+import DashboardWireframe from "./components/DashboardWireframe";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,8 @@ const App = () => (
           <Route path="/enter" element={<Enter />} />
           <Route path="/vip" element={<Vip />} />
           <Route path="/r/:code" element={<ReferralRedirect />} />
+          <Route path="/creator/build" element={<DashboardWireframe />} />
+          <Route path="/creator/profile" element={<CreatorProfile />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/checkout" element={<Checkout />} />
